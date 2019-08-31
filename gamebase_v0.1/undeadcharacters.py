@@ -61,3 +61,17 @@ class Lich(bc.BaseCharacter):
     
     def Healing(self):
         pass
+
+class Mara(bc.BaseCharacter):
+    """
+    CONTROL UNIT.
+    Can control whole enemy team and and enemy units by one.
+    """
+    def __init__(self, health=100, strenght=10, initiative=5, rage=0, defence=0, alive=True):
+        super().__init__(health=health, strenght=strenght, initiative=initiative, rage=rage, defence=defence, alive=alive)
+
+    def Horror(self):
+        """
+        Controlling SINGLE_TARGET.
+        """
+        pass

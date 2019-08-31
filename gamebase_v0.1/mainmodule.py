@@ -11,6 +11,9 @@ import undeadcharacters as udc
 skeleton = udc.Imp()
 priest = bc.BaseCharacter(strenght=10)
 
+
+print("Priest got {} defence points.\n\n".format(priest.Defence()))
+
 while priest.alive and skeleton.alive:
     skeleton_attack = skeleton.DoubleStrike()
     priest.health = bm.multiple_target_attack(skeleton_attack, priest.health)

@@ -50,10 +50,10 @@ class BaseCharacter():
         #defence_points = random.randint(0,20)
         #total_defence = check_parameter(self.strength, defence_points)
         # OR
-        defence_points = round(self.strenght / 2) + round(self.initiative / 2)
-        defence_amount = (self.strenght + self.initiative)
-        total_defence = check_parameter(defence_amount, defence_points)
-        return total_defence
+        defence_points = round((self.strenght/2) + (self.initiative/2))
+        #defence_amount = (self.strenght + self.initiative)
+        #total_defence = check_parameter(defence_amount, defence_points)
+        return defence_points
 
     def Health_check(self):
         '''
