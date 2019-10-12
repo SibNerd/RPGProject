@@ -1,0 +1,147 @@
+[gd_scene format=2]
+
+[node name="HUD" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.0823529, 0.0862745, 0.207843, 0.807843 )
+
+[node name="UnitPanel" type="Panel" parent="."]
+editor/display_folded = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 816.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="InventoryMenu" type="Button" parent="UnitPanel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -384.0
+margin_top = -264.0
+margin_bottom = -192.0
+rect_pivot_offset = Vector2( -46, -36 )
+rect_clip_content = true
+disabled = true
+text = "Inventory"
+
+[node name="SkillsMenu" type="Button" parent="UnitPanel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -768.0
+margin_top = -264.0
+margin_right = -384.0
+margin_bottom = -192.0
+rect_pivot_offset = Vector2( -46, -36 )
+rect_clip_content = true
+text = "Skills"
+
+[node name="Buttons" type="Panel" parent="UnitPanel"]
+editor/display_folded = true
+margin_left = 192.0
+margin_top = 72.0
+margin_right = 960.0
+margin_bottom = 264.0
+
+[node name="Button6" type="Button" parent="UnitPanel/Buttons"]
+margin_left = 408.0
+margin_top = 32.0
+margin_right = 536.0
+margin_bottom = 160.0
+
+[node name="Button3" type="Button" parent="UnitPanel/Buttons"]
+margin_left = 584.0
+margin_top = 32.0
+margin_right = 712.0
+margin_bottom = 160.0
+
+[node name="Button4" type="Button" parent="UnitPanel/Buttons"]
+margin_left = 56.0
+margin_top = 32.0
+margin_right = 184.0
+margin_bottom = 160.0
+
+[node name="Button5" type="Button" parent="UnitPanel/Buttons"]
+margin_left = 232.0
+margin_top = 32.0
+margin_right = 360.0
+margin_bottom = 160.0
+
+[node name="DescriptionPanel" type="Panel" parent="UnitPanel"]
+editor/display_folded = true
+margin_left = 960.0
+margin_right = 1728.0
+margin_bottom = 72.0
+
+[node name="Description" type="Label" parent="UnitPanel/DescriptionPanel"]
+margin_right = 768.0
+margin_bottom = 72.0
+text = "Description"
+align = 1
+valign = 1
+
+[node name="LongDescrirption" type="RichTextLabel" parent="UnitPanel/DescriptionPanel"]
+margin_top = 72.0
+margin_right = 768.0
+margin_bottom = 264.0
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+[node name="2PlayerPic" type="Panel" parent="."]
+editor/display_folded = true
+margin_left = 1680.0
+margin_top = 24.0
+margin_right = 1896.0
+margin_bottom = 240.0
+
+[node name="2PlayerStats" type="Panel" parent="2PlayerPic"]
+margin_left = -576.0
+margin_bottom = 144.0
+
+[node name="2PlayerName" type="Label" parent="2PlayerPic/2PlayerStats"]
+margin_right = 576.0
+margin_bottom = 72.0
+text = "Player Name"
+align = 1
+valign = 1
+
+[node name="1PlayerPic" type="Panel" parent="."]
+editor/display_folded = true
+margin_left = 24.0
+margin_top = 24.0
+margin_right = 240.0
+margin_bottom = 240.0
+
+[node name="1PlayerStats" type="Panel" parent="1PlayerPic"]
+margin_left = 216.0
+margin_right = 792.0
+margin_bottom = 144.0
+
+[node name="1PlayerName" type="Label" parent="1PlayerPic/1PlayerStats"]
+margin_right = 576.0
+margin_bottom = 72.0
+text = "Player Name"
+align = 1
+valign = 1
+
+[node name="RoundPanel" type="Panel" parent="."]
+editor/display_folded = true
+margin_left = 888.0
+margin_top = 24.0
+margin_right = 1032.0
+margin_bottom = 168.0
+
+[node name="RoundCount" type="Label" parent="RoundPanel"]
+margin_right = 144.0
+margin_bottom = 144.0
+text = "2"
+align = 1
+valign = 1
