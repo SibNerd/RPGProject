@@ -1,11 +1,20 @@
-[gd_scene format=2]
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://script/HUD.gd" type="Script" id=1]
+[ext_resource path="res://icons/panelbar.png" type="Texture" id=2]
+[ext_resource path="res://icons/panelbar_pressed.png" type="Texture" id=3]
+[ext_resource path="res://icons/skill_icon.png" type="Texture" id=4]
+[ext_resource path="res://icons/skill_icon_pressed.png" type="Texture" id=5]
+[ext_resource path="res://tabstheme.tres" type="Theme" id=6]
 
 [node name="HUD" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 1.36035
+margin_bottom = 1.36035
+script = ExtResource( 1 )
 
 [node name="UnitPanel" type="Panel" parent="."]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 816.0
@@ -14,7 +23,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="InventoryMenu" type="Button" parent="UnitPanel"]
+[node name="InventoryMenu" type="TextureButton" parent="UnitPanel"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -25,9 +34,9 @@ margin_bottom = -192.0
 rect_pivot_offset = Vector2( -46, -36 )
 rect_clip_content = true
 disabled = true
-text = "Inventory"
+texture_disabled = ExtResource( 2 )
 
-[node name="SkillsMenu" type="Button" parent="UnitPanel"]
+[node name="SkillsMenu" type="TextureButton" parent="UnitPanel"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -38,7 +47,13 @@ margin_right = -384.0
 margin_bottom = -192.0
 rect_pivot_offset = Vector2( -46, -36 )
 rect_clip_content = true
-text = "Skills"
+focus_mode = 0
+toggle_mode = true
+pressed = true
+action_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 3 )
 
 [node name="Buttons" type="Panel" parent="UnitPanel"]
 editor/display_folded = true
@@ -47,29 +62,41 @@ margin_top = 72.0
 margin_right = 960.0
 margin_bottom = 264.0
 
-[node name="Button6" type="Button" parent="UnitPanel/Buttons"]
+[node name="Button6" type="TextureButton" parent="UnitPanel/Buttons"]
 margin_left = 408.0
 margin_top = 32.0
 margin_right = 536.0
 margin_bottom = 160.0
+toggle_mode = true
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
 
-[node name="Button3" type="Button" parent="UnitPanel/Buttons"]
+[node name="Button3" type="TextureButton" parent="UnitPanel/Buttons"]
 margin_left = 584.0
 margin_top = 32.0
 margin_right = 712.0
 margin_bottom = 160.0
+toggle_mode = true
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
 
-[node name="Button4" type="Button" parent="UnitPanel/Buttons"]
+[node name="Button4" type="TextureButton" parent="UnitPanel/Buttons"]
 margin_left = 56.0
 margin_top = 32.0
 margin_right = 184.0
 margin_bottom = 160.0
+toggle_mode = true
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
 
-[node name="Button5" type="Button" parent="UnitPanel/Buttons"]
-margin_left = 232.0
+[node name="Button5" type="TextureButton" parent="UnitPanel/Buttons"]
+margin_left = 233.948
 margin_top = 32.0
-margin_right = 360.0
+margin_right = 361.948
 margin_bottom = 160.0
+toggle_mode = true
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
 
 [node name="DescriptionPanel" type="Panel" parent="UnitPanel"]
 editor/display_folded = true
@@ -89,6 +116,45 @@ margin_top = 72.0
 margin_right = 768.0
 margin_bottom = 264.0
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+[node name="TabContainer" type="TabContainer" parent="UnitPanel"]
+editor/display_folded = true
+visible = false
+margin_left = 195.76
+margin_top = -251.147
+margin_right = 963.76
+margin_bottom = -5.1474
+theme = ExtResource( 6 )
+
+[node name="TextureButton" type="TextureButton" parent="UnitPanel/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 24.0
+margin_right = -8.0
+margin_bottom = -8.0
+toggle_mode = true
+pressed = true
+
+[node name="TextureButton2" type="TextureButton" parent="UnitPanel/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 24.0
+margin_right = -8.0
+margin_bottom = -8.0
+disabled = true
+toggle_mode = true
+
+[node name="RunAway" type="TextureButton" parent="UnitPanel"]
+margin_left = 1752.0
+margin_top = 60.0
+margin_right = 1880.0
+margin_bottom = 188.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
 
 [node name="2PlayerPic" type="Panel" parent="."]
 editor/display_folded = true
@@ -140,3 +206,4 @@ margin_bottom = 144.0
 text = "2"
 align = 1
 valign = 1
+[connection signal="pressed" from="UnitPanel/RunAway" to="." method="_on_RunAway_pressed"]

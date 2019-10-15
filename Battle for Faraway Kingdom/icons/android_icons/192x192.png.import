@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/пкфмунфкв.jpg-9c57501bc53bd1e3e581ce754eeb3541.stex"
+path="res://.import/192x192.png-1fff059cf9b4a572396eaabcd1ad59a0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://backgrounds/пкфмунфкв.jpg"
-dest_files=[ "res://.import/пкфмунфкв.jpg-9c57501bc53bd1e3e581ce754eeb3541.stex" ]
+source_file="res://icons/android_icons/192x192.png"
+dest_files=[ "res://.import/192x192.png-1fff059cf9b4a572396eaabcd1ad59a0.stex" ]
 
 [params]
 
