@@ -7,13 +7,21 @@ ALL THE FUNCTIONS CHECKIGS ARE PLASED HERE TOO (FOR NOW).
 import basecharacter as bc
 import battlemode as bm
 import undeadcharacters as udc
+import humancharacters as huc
+import beastcharacters as bec
 
-skeleton = udc.Imp()
-priest = bc.BaseCharacter(strenght=10)
+possible_choice = {1: 'Undead', 2: 'Humans', 3: 'Beasts'}
+#Choose Fraction
+print("What fraction do you want to choose for battle?")
+print("Please, put a number: 1 - Undead; 2 - Humans; 3 - Beasts")
+answer = int(input())
+chosen_fraction = possible_choice[answer]
+#kinda menu
+print('So, you chose {}, good choice!'.format(chosen_fraction))
 
+#print('Your team:\n{},\n{}\n{}'.format)
 
-print("Priest got {} defence points.\n\n".format(priest.Defence()))
-
+"""
 while priest.alive and skeleton.alive:
     skeleton_attack = skeleton.DoubleStrike()
     priest.health = bm.multiple_target_attack(skeleton_attack, priest.health)
@@ -30,3 +38,5 @@ while priest.alive and skeleton.alive:
         if not skeleton.alive:
             print('skeleton died. Finally.')
             break
+        """
+

@@ -1,58 +1,56 @@
 """
-Module for all the HUMAN units.
+Module for all the BEAST units.
 """
 
 import basecharacter as bc
 import random
 
-class HouseSpirit (bc.BaseCharacter):
+class Bather(bc.BaseCharacter):
     """
     LOW DD UNIT.
-    Can't do shit actually.
     """
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
         self.health = 100
-        self.strenght = 10
-        self.initiative = 15
+        self.strenght = 12
+        self.initiative = 13
 
-
-class Witcher(bc.BaseCharacter):
+class Werewolf(bc.BaseCharacter):
     """
     HIGH DD UNIT.
     """
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
-        self.health = 150
-        self.strenght = 15
-        self.initiative = 8
+        self.health = 90
+        self.strenght = 12
+        self.initiative = 12
 
-class Protectress(bc.BaseCharacter):
+class Swampress(bc.BaseCharacter):
     """
     SUPPORT UNIT.
     """
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
-        self.health = 110
-        self.strenght = 7
+        self.health = 120
+        self.strenght = 10
         self.initiative = 10
 
-class HeroWarrior(bc.BaseCharacter):
+class Werebear(bc.BaseCharacter):
     """
     TANK UNIT.
     """
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
-        self.health = 200
-        self.strenght = 12
-        self.initiative = 5
+        self.health = 250
+        self.strenght = 8
+        self.initiative = 15
 
-class Druid(bc.BaseCharacter):
+class Kikimora(bc.BaseCharacter):
     """
     CONTROL UNIT.
     """
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
-        self.health = 120
-        self.strenght = 11
-        self.initiative = 12
+        self.health = 130
+        self.strenght = 15
+        self.initiative = 7

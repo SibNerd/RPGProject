@@ -25,13 +25,14 @@ def check_parameter (character_parameter, checking_points):
 
 
 class BaseCharacter():
-    def __init__(self, health=100, strenght=10, initiative=5, rage=0, defence=0, alive=True):
-        self.health = 100
+    def __init__(self, morality=100, rage=0, alive=True):
+        """self.health = 100
         self.strenght = 15
-        self.initiative = 5
-        self.rage = 0
-        self.defence = 0
-        self.alive = True
+        self.initiative = 5"""
+        self.morality = morality
+        self.rage = rage
+        #self.defence = 0
+        self.alive = alive
 
     def Attack(self):
         """

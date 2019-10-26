@@ -1,22 +1,25 @@
 """
-ALl the UNDEAD and DARK characters are placed here. 
+Module for all the Undead units.
 """
 
 import basecharacter as bc
 import random
 
+class SomeClass(bc.BaseCharacter):
+    def __init__(self, morality=0, rage=0, alive=True):
+        super().__init__(morality=morality, rage=rage, alive=alive)
 class Imp(bc.BaseCharacter):
     """
     LOW DD UNIT.
-    Can dodge SINGLE_TARGET attacks.
+    Future features: Can dodge SINGLE_TARGET attacks.
+    Called 'Анчутка'
     """
-    def __init__(self, health=100, strenght=10, initiative=5, rage=0, alive=True):
+    def __init__(self, morality=100, rage=0, alive=True):
+        super().__init__(morality=morality, rage=rage, alive=alive)
         self.health = 80
-        self.strenght = 15
+        self.strenght = 13
         self.initiative = 15
-        self.agility = 10
-        self.rage = rage
-        self.alive = alive
+        self.agility = 10 #Used to check if unit dodged from damage
     
     def DoubleStrike(self):
         total_damage = list()
@@ -29,31 +32,29 @@ class Imp(bc.BaseCharacter):
 class Vampire(bc.BaseCharacter):
     '''
     HIGHT DD UNIT.
-    Has a lot of sthenght. Can heal himself by biting opponent SINGLE_TARGET units.
+    Called 'Упырь'
     '''
-    def __init__(self, health=100, strenght=10, initiative=5, rage=0, alive=True):
+    def __init__(self, morality=100, rage=0, alive=True):
+        super().__init__(morality=morality, rage=rage, alive=alive)
         self.health = 100
         self.strenght = 15
-        self.initiative = 10
-        self.rage = rage
-        self.alive = alive
-        
+        self.initiative = 11
+       
     def Bite(self):
         biting_points = random.randint(1,20)
 
         pass
 
-class Lich(bc.BaseCharacter):
+class Howleress(bc.BaseCharacter):
     """
-    HEALING UNIT.
+    SUPPORT UNIT.
     Can heal other units in team.
     """
-    def __init__(self, health=100, strenght=10, initiative=5, rage=0, alive=True):
+    def __init__(self, morality=100, rage=0, alive=True):
+        super().__init__(morality=morality, rage=rage, alive=alive)
         self.health = 80
         self.strenght = 15
         self.initiative = 10
-        self.rage = rage
-        self.alive = alive
 
     def RaiseTheDead(self):
         pass
@@ -67,11 +68,24 @@ class Mara(bc.BaseCharacter):
     CONTROL UNIT.
     Can control whole enemy team and and enemy units by one.
     """
-    def __init__(self, health=100, strenght=10, initiative=5, rage=0, defence=0, alive=True):
-        super().__init__(health=health, strenght=strenght, initiative=initiative, rage=rage, defence=defence, alive=alive)
-
+    def __init__(self, morality=100, rage=0, alive=True):
+        super().__init__(morality=morality, rage=rage, alive=alive)
+        self.health = 110
+        self.strenght = 10
+        self.initiative = 15
+        
     def Horror(self):
         """
         Controlling SINGLE_TARGET.
         """
         pass
+
+class Ghoul(bc.BaseCharacter):
+    """
+    TANK UNIT.
+    """
+    def __init__(self, morality=100, rage=0, alive=True):
+        super().__init__(morality=morality, rage=rage, alive=alive)
+        self.health = 150
+        self.strenght = 13
+        self.initiative = 10
