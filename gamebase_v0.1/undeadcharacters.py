@@ -16,6 +16,7 @@ class Imp(bc.BaseCharacter):
     """
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
+        self.name = 'Анчутка'
         self.health = 80
         self.strenght = 13
         self.initiative = 15
@@ -36,6 +37,7 @@ class Vampire(bc.BaseCharacter):
     '''
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
+        self.name = 'Упырь'
         self.health = 100
         self.strenght = 15
         self.initiative = 11
@@ -52,6 +54,7 @@ class Howleress(bc.BaseCharacter):
     """
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
+        self.name = 'Вытьянка'
         self.health = 80
         self.strenght = 15
         self.initiative = 10
@@ -70,6 +73,7 @@ class Mara(bc.BaseCharacter):
     """
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
+        self.name = 'Мара'
         self.health = 110
         self.strenght = 10
         self.initiative = 15
@@ -86,6 +90,7 @@ class Ghoul(bc.BaseCharacter):
     """
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
+        self.name = 'Вурдалак'
         self.health = 150
         self.strenght = 13
         self.initiative = 10

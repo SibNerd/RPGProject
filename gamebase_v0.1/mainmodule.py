@@ -16,27 +16,16 @@ print("What fraction do you want to choose for battle?")
 print("Please, put a number: 1 - Undead; 2 - Humans; 3 - Beasts")
 answer = int(input())
 chosen_fraction = possible_choice[answer]
+
 #kinda menu
 print('So, you chose {}, good choice!'.format(chosen_fraction))
+player_team = bm.comand_init(chosen_fraction)
+print('Your team is:', end = ' ')
+for unit in player_team: print(unit.name, end ='   ')
+print('\n')
+enemy_team = bm.random_enemy_team(chosen_fraction)
+print('Enemy team is: ', end = ' ')
+for unit in enemy_team: print(unit.name, end = '   ')
+print('\n')
 
-#print('Your team:\n{},\n{}\n{}'.format)
-
-"""
-while priest.alive and skeleton.alive:
-    skeleton_attack = skeleton.DoubleStrike()
-    priest.health = bm.multiple_target_attack(skeleton_attack, priest.health)
-    print ('Skeleton dealed {} damage to a priest, priest got {} health left.'.format(skeleton_attack, priest.health))
-    priest.Health_check()
-    if not priest.alive:
-        print('priest died. RIP')
-        break
-    else:
-        priest_attack = priest.Attack()
-        skeleton.health = bm.single_target_attack(priest_attack, skeleton.health)
-        print('Priest dealed {} gamage to a skeleton, skeleton got {} heslth left. \n'.format(priest_attack, skeleton.health))
-        skeleton.Health_check()
-        if not skeleton.alive:
-            print('skeleton died. Finally.')
-            break
-        """
-
+#start battle
