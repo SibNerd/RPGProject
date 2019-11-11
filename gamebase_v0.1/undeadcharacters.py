@@ -17,8 +17,8 @@ class Imp(bc.BaseCharacter):
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
         self.name = 'Анчутка'
-        self.health = 80
-        self.strenght = 13
+        self.health = 70
+        self.strenght = 23 #was 13
         self.initiative = 15
         self.agility = 10 #Used to check if unit dodged from damage
     
@@ -38,8 +38,8 @@ class Vampire(bc.BaseCharacter):
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
         self.name = 'Упырь'
-        self.health = 100
-        self.strenght = 15
+        self.health = 90
+        self.strenght = 25 #was 15
         self.initiative = 11
        
     def Bite(self):
@@ -56,7 +56,7 @@ class Howleress(bc.BaseCharacter):
         super().__init__(morality=morality, rage=rage, alive=alive)
         self.name = 'Вытьянка'
         self.health = 80
-        self.strenght = 15
+        self.strenght = 25 #was 15
         self.initiative = 10
 
     def RaiseTheDead(self):
@@ -74,8 +74,8 @@ class Mara(bc.BaseCharacter):
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
         self.name = 'Мара'
-        self.health = 110
-        self.strenght = 10
+        self.health = 100
+        self.strenght = 20 #was 10
         self.initiative = 15
         
     def Horror(self):
@@ -91,6 +91,6 @@ class Ghoul(bc.BaseCharacter):
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
         self.name = 'Вурдалак'
-        self.health = 150
-        self.strenght = 13
+        self.health = 140
+        self.strenght = 23 #was 13
         self.initiative = 10

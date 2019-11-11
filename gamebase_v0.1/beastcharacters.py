@@ -12,8 +12,8 @@ class Bather(bc.BaseCharacter):
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
         self.name = 'Банник'
-        self.health = 100
-        self.strenght = 12
+        self.health = 90
+        self.strenght = 22
         self.initiative = 13
 
 class Werewolf(bc.BaseCharacter):
@@ -23,8 +23,8 @@ class Werewolf(bc.BaseCharacter):
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
         self.name = 'Волколак'
-        self.health = 90
-        self.strenght = 12
+        self.health = 80
+        self.strenght = 22
         self.initiative = 12
 
 class Swampress(bc.BaseCharacter):
@@ -34,8 +34,8 @@ class Swampress(bc.BaseCharacter):
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
         self.name = 'Болотница'
-        self.health = 120
-        self.strenght = 10
+        self.health = 110
+        self.strenght = 22
         self.initiative = 10
 
 class Werebear(bc.BaseCharacter):
@@ -45,8 +45,8 @@ class Werebear(bc.BaseCharacter):
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
         self.name = 'Берендей'
-        self.health = 250
-        self.strenght = 8
+        self.health = 240
+        self.strenght = 18
         self.initiative = 15
 
 class Kikimora(bc.BaseCharacter):
@@ -56,6 +56,6 @@ class Kikimora(bc.BaseCharacter):
     def __init__(self, morality=100, rage=0, alive=True):
         super().__init__(morality=morality, rage=rage, alive=alive)
         self.name = 'Кикимора'
-        self.health = 130
-        self.strenght = 15
+        self.health = 120
+        self.strenght = 25
         self.initiative = 7
