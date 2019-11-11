@@ -1,3 +1,8 @@
+"""
+Basic functions for battles in game.
+Contains different checks and queue logics by now.
+"""
+
 #import BaseCharacter
 import random
 import undeadcharacters as uc
@@ -38,7 +43,9 @@ def AOE_target_attack(attacking_character_damage, defending_characters_health):
 #end of Basic attacking funcktions
 
 
+
 #FRACTION TEAMS INITIATION
+
 def Undead_team_init():
     imp = uc.Imp()
     mara = uc.Mara()
@@ -63,7 +70,9 @@ def Beasts_team_init():
 #end of Fraction Teams Initiation
 
 
+
 #Player's and enemy's teams initiation
+
 def comand_init(target_fraction):
     """
     Initiation of chosen fraction command.
@@ -84,13 +93,40 @@ def random_enemy_team(chosen_fraction):
     enemy_team = comand_init(enemy_fraction)
     return enemy_team
 
-
 #end of player's & enemy's teams initiation
 
+
+
 #Queue logic of the battle.
-def round_queue_logic(team_one_units, team_two_units):
+
+def general_queue_logic(team_one_units, team_two_units):
     """
     Gets list of all the present aka ALIVE units in current round and puts them in the order 
     of decreasing initiative points.
+    Team_one is PLAYER, Team_two is ENEMY.
     """
-    pass
+    #general_queue = {unit: [unit.name, unit.initiative] for unit in team_one_units}
+    #general_queue.update({unit: [unit.name, unit.initiative] for unit in team_two_units})
+    general_queue = []
+    for unit in team_one_units:
+        general_queue.append([unit, unit.initiative])
+    for unit in team_two_units:
+        general_queue.append([unit, unit.initiative])
+    general_queue.sort(key=lambda x: x[1], reverse=True)
+    return general_queue
+
+def Unique_initiative(general_queue):
+    '''
+    Basically this function has to make sure every initiative is unic in battle queue but it 
+    doesn't. I'll try to come up with something better in future but for now it will add a 
+    bit of random in queue.
+
+    Might as well just delete it later.
+    '''
+    s_samples = sorted(general_queue, reverse=True, key=lambda x: x[1])
+    for i in range(len(s_samples)-1):
+        j = i+1
+        if s_samples[i][1] == s_samples[j][1]:
+            s_samples[i][1] = random.randint(0,i)
+            s_samples[j][1] = random.randint(0,j)
+    return sorted(s_samples, reverse=True, key=lambda x: x[1])
