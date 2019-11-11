@@ -56,7 +56,7 @@ class BaseCharacter():
         #total_defence = check_parameter(defence_amount, defence_points)
         return defence_points
 
-    def Health_check(self):
+    def Is_alive(self):
         '''
         Death of the character.
         Checks if charachers health points are above 0.
