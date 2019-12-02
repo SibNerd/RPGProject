@@ -13,7 +13,7 @@ import beastcharacters as bc
 All the Battle functions and logic are placed here.
 """
 
-#Basic attacking functions.
+# BASIC ATTACKING FUNCTIONS
 
 def single_target_attack(attacking_character_damage, defending_character_health):
     """
@@ -40,11 +40,11 @@ def AOE_target_attack(attacking_character_damage, defending_characters_health):
         resultiing_health.append(defending_character_health)
     return resultiing_health
 
-#end of Basic attacking funcktions
+# End of Basic attacking funcktions
 
 
 
-#FRACTION TEAMS INITIATION
+# FRACTION TEAMS INITIATION
 
 def Undead_team_init():
     imp = uc.Imp()
@@ -67,11 +67,11 @@ def Beasts_team_init():
     team_units = [bather, swampress, kikimora]
     return team_units
 
-#end of Fraction Teams Initiation
+# End of Fraction Teams Initiation
 
 
 
-#Player's and enemy's teams initiation
+# TEAMS INITIATION
 
 def comand_init(target_fraction):
     """
@@ -93,11 +93,11 @@ def random_enemy_team(chosen_fraction):
     enemy_team = comand_init(enemy_fraction)
     return enemy_team
 
-#end of player's & enemy's teams initiation
+# end of player's & enemy's teams initiation
 
 
 
-#Queue logic of the battle.
+# QUEUE LOGIC OF THE BATTLE
 
 def general_queue_logic(team_one_units, team_two_units):
     """
