@@ -7,55 +7,52 @@ import random
 
 def Auto_Battle(player_team, enemy_team):
     general_queue = bm.general_queue_logic(player_team, enemy_team)
-    print(general_queue)
+    print(general_queue, '\n')
     round_count = 1
     battle_queue = []
-    is_battle = True
     for unit in general_queue:
             if unit[0].alive:
                 battle_queue.append(unit)
     round_queue = bm.Unique_initiative(battle_queue)
     round_units_queue = [i[0] for i in round_queue]
-    while is_battle: #while both teams have units to fight
+    while player_team and enemy_team:
         print(round_count, 'Round! Begin!','\n')
         print(round_units_queue, '\n')
         for unit in round_units_queue:
-            if unit in player_team:
-                print(f'{unit.name} has to go.')
-                en_unit = random.random.choice(enemy_team)
-                print(f'{unit.name} chose to attack {en_unit.name}. {en_unit.name} got {en_unit.health} health')
-                en_unit.health = bm.single_target_attack(unit.Attack(), en_unit.health)
-                print(f'{unit.name} attacked {en_unit.name}, which got {en_unit.health} health left')
-                en_unit.Is_alive()
-                if not en_unit.alive:
-                    round_units_queue.remove(en_unit)
-                    enemy_team.remove(en_unit)
-                    print(f'{en_unit.name} died')
-                    if not enemy_team:
-                        print('You won! Conrgatulations!')
-                        is_battle = False
-            elif unit in enemy_team:
-                pl_unit = random.random.choice(player_team)
-                print(f'{unit.name} chose to attack {pl_unit.name}. {pl_unit.name} got {pl_unit.health} health')
-                pl_unit.health = bm.single_target_attack(unit.Attack(), pl_unit.health)
-                print(f'{unit.name} attacked {pl_unit.name}, which got {pl_unit.health} hralth left')
-                pl_unit.Is_alive()
-                if not pl_unit.alive:
-                    round_units_queue.remove(pl_unit)
-                    player_team.remove(pl_unit)
-                    print(f'{pl_unit.name} died')
-                    if not player_team:
-                        print('You lose. Try again.')
-                        is_battle = False
+            print(f"It's {unit.name}'s torn to go")
+            defending_team = defence_turn(unit, player_team, enemy_team)
+            enemy_unit = unit_turn(unit, defending_team)
+            check_unit_from_team(enemy_unit, defending_team, round_units_queue)
+            if not player_team and enemy_team: break
         print('End of the round ', round_count, '. \n')
         round_count +=1
 
-def unit_turn(unit):
-    pass
-"""
-В чем идея:
-взять повторяющийся код из верхней части и вывести его в отдельную функцию. В итоге в главной функции проверка идет на то,
-к какой команде принадлежит юнит, и все.
-В этой функции юнит будет ходить автоматически, возвращаться будет результат.
-Главная функция будет обрабатывать результат.
-"""
+def unit_turn(unit, enemy_team):
+    """
+    В чем идея:
+    взять повторяющийся код из верхней части и вывести его в отдельную функцию. В итоге в главной функции проверка идет на то,
+    к какой команде принадлежит юнит, и все.
+    В этой функции юнит будет ходить автоматически, возвращаться будет результат.
+    Главная функция будет обрабатывать результат.
+    """
+    enemy_unit = random.choice(enemy_team)
+    enemy_unit.health = bm.single_target_attack(unit.Attack(), enemy_unit.health)
+    print(f'{enemy_unit.name} got {enemy_unit.health} HP left')
+    enemy_unit.Is_alive()
+    return enemy_unit
+    
+def defence_turn(unit, player_team, enemy_team):
+    # Вывела проверку на принадлежность к команде в отдельную функцию, чтобы не было кучи вложенных циклов
+    # Решила, что стоит возвращать список защищающейся команды
+    if unit in player_team:
+        defending_team = enemy_team
+    elif unit in enemy_team:
+        defending_team = player_team
+    return defending_team
+
+def check_unit_from_team(unit, team, round_units_queue):
+    # If unit is dead, removes it from queues and team
+    if not unit.alive:
+        round_units_queue.remove(unit)
+        team.remove(unit)
+
