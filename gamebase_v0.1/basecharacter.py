@@ -25,21 +25,20 @@ def check_parameter (character_parameter, checking_points):
 
 
 class BaseCharacter():
-    def __init__(self, morality=100, rage=0, alive=True):
-        """self.health = 100
-        self.strenght = 15
-        self.initiative = 5"""
+    def __init__(self, morality=100, rage=0, effects={}, alive=True):
         self.morality = morality
         self.rage = rage
         #self.defence = 0
+        self.effects = {}
         self.alive = alive
-
+        #self.action_points = 
+        
     def Attack(self):
         """
         Basic Attack.
         Checks character's strenght only.
         """
-        damage_points = random.randint(1,20)
+        damage_points = random.randint(1,20) #perhaps should change to 30-40? or even 50 maybe
         total_damage = check_parameter(self.strenght, damage_points)
         return total_damage
     
@@ -65,3 +64,6 @@ class BaseCharacter():
         if self.health <= 0:
             self.alive = False
         
+    def Check_current_health(self, current_health, max_health):
+        if current_health > max_health:
+            current_health = max_health
