@@ -7,6 +7,7 @@ ALL THE FUNCTIONS CHECKIGS ARE PLASED HERE TOO (FOR NOW).
 import basecharacter as bc
 import battlemode as bm
 import random
+import battleround as br
 #import undeadcharacters as udc
 #import humancharacters as huc
 #import beastcharacters as bec
@@ -31,10 +32,13 @@ print('\n')
 """
 player_team = bm.comand_init('Undead')
 enemy_team = bm.comand_init('Humans')
-bm.Auto_Battle(player_team, enemy_team)
+br.Auto_Battle(player_team, enemy_team)
 print('\n')
 print('It was Undead VS Humans','\n')
+
+"""
 player_team = bm.comand_init('Undead')
 enemy_team = bm.comand_init('Beasts')
 bm.Auto_Battle(player_team, enemy_team)
 print('\n','It was Undead VS Beasts','\n')
+"""
