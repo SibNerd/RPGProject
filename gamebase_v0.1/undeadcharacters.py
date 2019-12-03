@@ -22,8 +22,13 @@ class Imp(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.agility = 10 #Used to check if unit dodged from damage
+        self.Active_skills = {'Двойной удар': self.DoubleStrike()}
+        self.Passive_skills = {}
     
     def DoubleStrike(self):
+        """
+        Deals Damage to a target TWICE
+        """
         total_damage = list()
         for i in range(2):
             damage_points = random.randint(1,20)
@@ -45,6 +50,8 @@ class Vampire(bc.BaseCharacter):
         self.max_AP = self.Action_points()
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
+        self.Active_skills = {'Жажда крови' : self.Bite}
+        self.Passive_skills = {}
        
     def Bite(self, enemy_unit):
         """
@@ -72,12 +79,13 @@ class Howleress(bc.BaseCharacter):
         self.max_AP = self.Action_points()
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
+        self.Active_skills = {}
+        self.Passive_skills = {}
 
     def RaiseTheDead(self, friendly_unit):
         """
         Resurrects one of the dead units and gives them 15 hp
         """
-        COST = 10
         COOLDOWN = 5
         friendly_unit.alive = True
         friendly_unit.health = 15
@@ -85,6 +93,9 @@ class Howleress(bc.BaseCharacter):
         #should i return anything here?        
 
     def Healing(self, friendly_unit):
+        """
+        Restores friendly target's HP.
+        """
         healing_points = random.randint(0,20)
         healing_done = bc.check_parameter(self.strenght, healing_points) # not final!
         pass
@@ -104,6 +115,8 @@ class Mara(bc.BaseCharacter):
         self.max_AP = self.Action_points()
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
+        self.Active_skills = {}
+        self.Passive_skills = {}
         
     def Horror(self, enemy_unit):
         """
@@ -128,3 +141,5 @@ class Ghoul(bc.BaseCharacter):
         self.max_AP = self.Action_points()
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
+        self.Active_skills = {}
+        self.Passive_skills = {}
