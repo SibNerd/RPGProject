@@ -20,6 +20,9 @@ class HouseSpirit (bc.BaseCharacter):
         self.max_AP = self.Action_points()
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
+        self.Active_skills = {}
+        self.skills_on_CD = {}
+        self.Passive_skills = {}
 
 
 class Witcher(bc.BaseCharacter):
@@ -36,6 +39,9 @@ class Witcher(bc.BaseCharacter):
         self.max_AP = self.Action_points()
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
+        self.Active_skills = {}
+        self.skills_on_CD = {}
+        self.Passive_skills = {}
 
 class Protectress(bc.BaseCharacter):
     """
@@ -52,6 +58,7 @@ class Protectress(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
+        self.skills_on_CD = {}
         self.Passive_skills = {}
 
 class HeroWarrior(bc.BaseCharacter):
@@ -69,6 +76,7 @@ class HeroWarrior(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
+        self.skills_on_CD = {}
         self.Passive_skills = {}
 
 class Druid(bc.BaseCharacter):
@@ -86,4 +94,5 @@ class Druid(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
+        self.skills_on_CD = {}
         self.Passive_skills = {}

@@ -21,8 +21,9 @@ class Imp(bc.BaseCharacter):
         self.max_AP = self.Action_points()
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
-        self.agility = 10 #Used to check if unit dodged from damage
-        self.Active_skills = {'Двойной удар': self.DoubleStrike()}
+        # self.agility = 10 # Used to check if unit dodged from damage
+        self.Active_skills = {'Двойной удар': [self.DoubleStrike(), 5]}
+        self.skills_on_CD = {}
         self.Passive_skills = {}
     
     def DoubleStrike(self):
@@ -51,6 +52,7 @@ class Vampire(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {'Жажда крови' : self.Bite}
+        self.skills_on_CD = {}
         self.Passive_skills = {}
        
     def Bite(self, enemy_unit):
@@ -80,6 +82,7 @@ class Howleress(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
+        self.skills_on_CD = {}
         self.Passive_skills = {}
 
     def RaiseTheDead(self, friendly_unit):
@@ -116,6 +119,7 @@ class Mara(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
+        self.skills_on_CD = {}
         self.Passive_skills = {}
         
     def Horror(self, enemy_unit):
@@ -142,4 +146,5 @@ class Ghoul(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
+        self.skills_on_CD = {}
         self.Passive_skills = {}
