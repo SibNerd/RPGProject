@@ -11,13 +11,16 @@ class Imp(bc.BaseCharacter):
     Future features: Can dodge SINGLE_TARGET attacks.
     Called 'Анчутка'
     """
-    def __init__(self, morality=100, rage=0, alive=True):
-        super().__init__(morality=morality, rage=rage, effects={}, alive=alive)
+    def __init__(self):
+        super().__init__()
         self.name = 'Анчутка'
         self.max_health = 60
         self.current_health = 60
         self.strenght = 13
         self.initiative = 15
+        self.max_AP = self.Action_points()
+        self.current_AP = self.Action_points()
+        self.AP_restore = self.AP_restore_speed()
         self.agility = 10 #Used to check if unit dodged from damage
     
     def DoubleStrike(self):
@@ -32,13 +35,16 @@ class Vampire(bc.BaseCharacter):
     '''
     HIGHT DD UNIT.
     '''
-    def __init__(self, morality=100, rage=0, alive=True):
-        super().__init__(morality=morality, rage=rage, effects={}, alive=alive)
+    def __init__(self):
+        super().__init__()
         self.name = 'Упырь'
         self.max_health = 80
         self.current_health = 80
         self.strenght = 15
         self.initiative = 11
+        self.max_AP = self.Action_points()
+        self.current_AP = self.Action_points()
+        self.AP_restore = self.AP_restore_speed()
        
     def Bite(self, enemy_unit):
         """
@@ -56,20 +62,26 @@ class Howleress(bc.BaseCharacter):
     SUPPORT UNIT.
     Can heal other units in team.
     """
-    def __init__(self, morality=100, rage=0, alive=True):
-        super().__init__(morality=morality, rage=rage, effects={}, alive=alive)
+    def __init__(self):
+        super().__init__()
         self.name = 'Вытьянка'
         self.max_health = 70
         self.current_health = 70
         self.strenght = 15
         self.initiative = 10
+        self.max_AP = self.Action_points()
+        self.current_AP = self.Action_points()
+        self.AP_restore = self.AP_restore_speed()
 
     def RaiseTheDead(self, friendly_unit):
         """
         Resurrects one of the dead units and gives them 15 hp
         """
+        COST = 10
+        COOLDOWN = 5
         friendly_unit.alive = True
         friendly_unit.health = 15
+        self.skills_on_CD.update({'Raise The Dead' : COOLDOWN})
         #should i return anything here?        
 
     def Healing(self, friendly_unit):
@@ -82,18 +94,23 @@ class Mara(bc.BaseCharacter):
     CONTROL UNIT.
     Can control whole enemy team and and enemy units by one.
     """
-    def __init__(self, morality=100, rage=0, alive=True):
-        super().__init__(morality=morality, rage=rage, effects={}, alive=alive)
+    def __init__(self):
+        super().__init__()
         self.name = 'Мара'
         self.max_health = 100
         self.current_health = 100
         self.strenght = 10
         self.initiative = 15
+        self.max_AP = self.Action_points()
+        self.current_AP = self.Action_points()
+        self.AP_restore = self.AP_restore_speed()
         
     def Horror(self, enemy_unit):
         """
         Controlling SINGLE_TARGET.
         """
+        COST = 5
+        self.current_AP -= COST
         enemy_unit.initiative = 0
         enemy_unit.effects.update({'Horror': 2})
 
@@ -101,9 +118,13 @@ class Ghoul(bc.BaseCharacter):
     """
     TANK UNIT.
     """
-    def __init__(self, morality=100, rage=0, alive=True):
-        super().__init__(morality=morality, rage=rage, effects={}, alive=alive)
+    def __init__(self):
+        super().__init__()
         self.name = 'Вурдалак'
-        self.health = 120
+        self.max_health = 120
+        self.current_health = 120
         self.strenght = 13
         self.initiative = 10
+        self.max_AP = self.Action_points()
+        self.current_AP = self.Action_points()
+        self.AP_restore = self.AP_restore_speed()
