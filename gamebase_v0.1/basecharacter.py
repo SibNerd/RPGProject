@@ -23,15 +23,14 @@ def check_parameter (character_parameter, checking_points):
         resulting_points = 0
     return resulting_points
 
-
 class BaseCharacter():
-    def __init__(self, morality=100, rage=0, effects={}, alive=True):
-        self.morality = morality
-        self.rage = rage
+    def __init__(self):
+        self.morality = 100
+        self.rage = 0
         #self.defence = 0
         self.effects = {}
-        self.alive = alive
-        #self.action_points = 
+        self.skills_on_CD = {}
+        self.alive = True
         
     def Attack(self):
         """
@@ -61,9 +60,17 @@ class BaseCharacter():
         Checks if charachers health points are above 0.
         If not, swithes SELF.ALIVE to FALSE.
         '''
-        if self.health <= 0:
+        if self.current_health <= 0:
             self.alive = False
         
     def Check_current_health(self, current_health, max_health):
         if current_health > max_health:
             current_health = max_health
+
+    def Action_points(self):
+        AP = int(round(self.strenght + self.initiative) / (1+(self.rage/100)))
+        return AP
+
+    def AP_restore_speed(self):
+        APRS = (self.strenght + self.initiative) / 5 + (self.morality + self.rage / 100)
+        return APRS
