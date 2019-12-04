@@ -22,8 +22,7 @@ class Imp(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         # self.agility = 10 # Used to check if unit dodged from damage
-        self.Active_skills = {'Двойной удар': [self.DoubleStrike(), 5]}
-        self.skills_on_CD = {}
+        self.Active_skills = {'Двойной удар': self.DoubleStrike}
         self.Passive_skills = {}
     
     def DoubleStrike(self):
@@ -51,8 +50,7 @@ class Vampire(bc.BaseCharacter):
         self.max_AP = self.Action_points()
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
-        self.Active_skills = {'Жажда крови' : self.Bite}
-        self.skills_on_CD = {}
+        self.Active_skills = {'Жажда крови': self.Bite}
         self.Passive_skills = {}
        
     def Bite(self, enemy_unit):
@@ -81,19 +79,19 @@ class Howleress(bc.BaseCharacter):
         self.max_AP = self.Action_points()
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
-        self.Active_skills = {}
-        self.skills_on_CD = {}
+        self.Active_skills = {'Raise the Dead!': self.RaiseTheDead, 
+                              'Healing mourn': self.Healing,}
         self.Passive_skills = {}
 
     def RaiseTheDead(self, friendly_unit):
         """
         Resurrects one of the dead units and gives them 15 hp
         """
+        COST = 10
         COOLDOWN = 5
         friendly_unit.alive = True
-        friendly_unit.health = 15
-        self.skills_on_CD.update({'Raise The Dead' : COOLDOWN})
-        #should i return anything here?        
+        friendly_unit.health = 35
+        self.skills_on_CD.update({'Raise The Dead': COOLDOWN})        
 
     def Healing(self, friendly_unit):
         """
@@ -119,7 +117,6 @@ class Mara(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
-        self.skills_on_CD = {}
         self.Passive_skills = {}
         
     def Horror(self, enemy_unit):
@@ -146,5 +143,4 @@ class Ghoul(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
-        self.skills_on_CD = {}
         self.Passive_skills = {}

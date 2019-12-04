@@ -20,7 +20,6 @@ class Bather(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
-        self.skills_on_CD = {}
         self.Passive_skills = {}
 
 class Werewolf(bc.BaseCharacter):
@@ -38,7 +37,6 @@ class Werewolf(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
-        self.skills_on_CD = {}
         self.Passive_skills = {}
 
 class Swampress(bc.BaseCharacter):
@@ -56,7 +54,6 @@ class Swampress(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
-        self.skills_on_CD = {}
         self.Passive_skills = {}
 
 class Werebear(bc.BaseCharacter):
@@ -74,7 +71,6 @@ class Werebear(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
-        self.skills_on_CD = {}
         self.Passive_skills = {}
 
 class Kikimora(bc.BaseCharacter):
@@ -92,5 +88,4 @@ class Kikimora(bc.BaseCharacter):
         self.current_AP = self.Action_points()
         self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
-        self.skills_on_CD = {}
         self.Passive_skills = {}
