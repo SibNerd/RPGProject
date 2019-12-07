@@ -105,8 +105,6 @@ def general_queue_logic(team_one_units, team_two_units):
     of decreasing initiative points.
     Team_one is PLAYER, Team_two is ENEMY.
     """
-    #general_queue = {unit: [unit.name, unit.initiative] for unit in team_one_units}
-    #general_queue.update({unit: [unit.name, unit.initiative] for unit in team_two_units})
     general_queue = []
     for unit in team_one_units:
         general_queue.append([unit, unit.initiative])
@@ -127,6 +125,6 @@ def Unique_initiative(general_queue):
     for i in range(len(s_samples)-1):
         j = i+1
         if s_samples[i][1] == s_samples[j][1]:
-            s_samples[i][1] = random.randint(0,i)
-            s_samples[j][1] = random.randint(0,j)
+            s_samples[i][1] = random.randint(1,s_samples[i][1])
+            s_samples[j][1] = random.randint(1,s_samples[j][1])
     return sorted(s_samples, reverse=True, key=lambda x: x[1])
