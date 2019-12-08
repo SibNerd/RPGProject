@@ -63,6 +63,6 @@ class BaseCharacter():
         if self.current_health <= 0:
             self.alive = False
         
-    def Check_current_health(self, current_health, max_health):
-        if current_health > max_health:
-            current_health = max_health
+    def Check_current_health(self):
+        if self.current_health > self.max_health:
+            self.current_health = self.max_health
