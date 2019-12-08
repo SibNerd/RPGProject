@@ -19,7 +19,8 @@ class Imp(bc.BaseCharacter):
         self.strenght = 13
         self.initiative = 15
         # self.agility = 10 # Used to check if unit dodged from damage
-        self.Active_skills = {'Двойной удар': self.DoubleStrike}
+        self.Active_skills = {'Атака': self.Attack,
+                              'Двойной удар': self.DoubleStrike,}
         self.Passive_skills = {}
     
     def DoubleStrike(self):
@@ -33,6 +34,8 @@ class Imp(bc.BaseCharacter):
             total_damage.append(dealt_damage)
         return total_damage
 
+
+
 class Vampire(bc.BaseCharacter):
     '''
     HIGHT DD UNIT.
@@ -42,9 +45,10 @@ class Vampire(bc.BaseCharacter):
         self.name = 'Упырь'
         self.max_health = 80
         self.current_health = 80
-        self.strenght = 15
+        self.strenght = 17
         self.initiative = 11
-        self.Active_skills = {'Жажда крови': self.Bite}
+        self.Active_skills = {'Атака': self.Attack,
+                              'Жажда крови': self.Bite,}
         self.Passive_skills = {}
        
     def Bite(self, enemy_unit):
@@ -58,6 +62,7 @@ class Vampire(bc.BaseCharacter):
         self.Check_current_health(self.current_health, self.max_health)
 
 
+
 class Howleress(bc.BaseCharacter):
     """
     SUPPORT UNIT.
@@ -68,28 +73,44 @@ class Howleress(bc.BaseCharacter):
         self.name = 'Вытьянка'
         self.max_health = 70
         self.current_health = 70
-        self.strenght = 15
-        self.initiative = 10
-        self.Active_skills = {'Raise the Dead!': self.RaiseTheDead, 
-                              'Healing mourn': self.Healing,}
+        self.strenght = 11
+        self.initiative = 12
+        self.Active_skills = {'Атака': self.Attack,
+                              'Не время умирать!': self.RaiseTheDead, 
+                              'Вой по живым': self.Healing,
+                              'Mass Healing': self.Mass_Healing}
         self.Passive_skills = {}
 
     def RaiseTheDead(self, friendly_unit):
         """
-        Resurrects one of the dead units and gives them 15 hp
+        Resurrects one of the dead units and gives them 35 hp
         """
         COOLDOWN = 6
         friendly_unit.alive = True
         friendly_unit.current_health = 35
-        self.skills_on_CD.update({'Raise The Dead': COOLDOWN})        
+        self.skills_on_CD.update({'Не время умирать!': COOLDOWN})        
 
     def Healing(self, friendly_unit):
         """
         Restores friendly target's HP.
         """
+        COOLDOWN = 2
         healing_points = random.randint(0,20)
-        healing_done = bc.check_parameter(self.strenght, healing_points) # not final!
-        pass
+        healing_done = bc.check_parameter(self.strenght, healing_points) #mb change to CONST heal
+        friendly_unit.current_health += healing_done
+        friendly_unit.Check_current_health()
+        self.skills_on_CD.update({"Вой по живым": COOLDOWN})
+    
+    def Mass_Healing(self, team):
+        cooldown = 4
+        healing_points = random.randint(0, 20)
+        healing_done = bc.check_parameter(self.strenght, healing_points)
+        for unit in team:
+            unit.current_health += healing_done
+            unit.Check_current_health()
+        self.skills_on_CD.update({'Mass Healing': cooldown})
+
+
 
 class Mara(bc.BaseCharacter):
     """
@@ -101,17 +122,30 @@ class Mara(bc.BaseCharacter):
         self.name = 'Мара'
         self.max_health = 100
         self.current_health = 100
-        self.strenght = 10
-        self.initiative = 15
-        self.Active_skills = {}
+        self.strenght = 11
+        self.initiative = 14
+        self.Active_skills = {'Атака': self.Attack,
+                              'Horror': self.Horror,
+                              'Mass Horor': self.Mass_Horror,}
         self.Passive_skills = {}
         
     def Horror(self, enemy_unit):
         """
         Controlling SINGLE_TARGET.
         """
+        COOLDOWN = 3
         enemy_unit.initiative = 0
-        enemy_unit.effects.update({'Horror': 2})
+        enemy_unit.effects.update({'Stun': 3})
+        self.skills_on_CD.update({'Horror': COOLDOWN})
+
+    def Mass_Horror(self, team):
+        COOLDOWN = 5
+        for unit in team:
+            unit.initiative = 0
+            unit.effects.update({'Stun': 2})
+        self.skills_on_CD.update({'Mass_Horror': COOLDOWN})
+
+
 
 class Ghoul(bc.BaseCharacter):
     """
@@ -124,5 +158,15 @@ class Ghoul(bc.BaseCharacter):
         self.current_health = 120
         self.strenght = 13
         self.initiative = 10
-        self.Active_skills = {}
+        self.Active_skills = {'Атака': self.Attack,
+                              'Mass Strenght Buff': self.Mass_Strenght_Buff,}
         self.Passive_skills = {}
+
+    def Mass_Strenght_Buff(self, team):
+        cooldown = 4
+        duration = 2
+        base_value = 5
+        for unit in team:
+            unit.strenght += base_value
+            unit.effects.update({'Strenght buff': duration})
+        self.skills_on_CD.update({'Mass Strenght Buff': cooldown})
