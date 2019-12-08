@@ -90,7 +90,7 @@ class Howleress(bc.BaseCharacter):
         COST = 10
         COOLDOWN = 5
         friendly_unit.alive = True
-        friendly_unit.health = 35
+        friendly_unit.current_health = 35
         self.skills_on_CD.update({'Raise The Dead': COOLDOWN})        
 
     def Healing(self, friendly_unit):
