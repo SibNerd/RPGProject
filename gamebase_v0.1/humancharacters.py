@@ -17,9 +17,6 @@ class HouseSpirit (bc.BaseCharacter):
         self.current_health = 80
         self.strenght = 10
         self.initiative = 15
-        self.max_AP = self.Action_points()
-        self.current_AP = self.Action_points()
-        self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
         self.Passive_skills = {}
 
@@ -35,9 +32,6 @@ class Witcher(bc.BaseCharacter):
         self.current_health = 130
         self.strenght = 15
         self.initiative = 8
-        self.max_AP = self.Action_points()
-        self.current_AP = self.Action_points()
-        self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
         self.Passive_skills = {}
 
@@ -52,9 +46,6 @@ class Protectress(bc.BaseCharacter):
         self.current_health = 80
         self.strenght = 7
         self.initiative = 10
-        self.max_AP = self.Action_points()
-        self.current_AP = self.Action_points()
-        self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
         self.Passive_skills = {}
 
@@ -69,9 +60,6 @@ class HeroWarrior(bc.BaseCharacter):
         self.current_health = 180
         self.strenght = 12
         self.initiative = 5
-        self.max_AP = self.Action_points()
-        self.current_AP = self.Action_points()
-        self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
         self.Passive_skills = {}
 
@@ -86,8 +74,5 @@ class Druid(bc.BaseCharacter):
         self.current_health = 100
         self.strenght = 11
         self.initiative = 12
-        self.max_AP = self.Action_points()
-        self.current_AP = self.Action_points()
-        self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
         self.Passive_skills = {}

@@ -18,9 +18,6 @@ class Imp(bc.BaseCharacter):
         self.current_health = 60
         self.strenght = 13
         self.initiative = 15
-        self.max_AP = self.Action_points()
-        self.current_AP = self.Action_points()
-        self.AP_restore = self.AP_restore_speed()
         # self.agility = 10 # Used to check if unit dodged from damage
         self.Active_skills = {'Двойной удар': self.DoubleStrike}
         self.Passive_skills = {}
@@ -47,9 +44,6 @@ class Vampire(bc.BaseCharacter):
         self.current_health = 80
         self.strenght = 15
         self.initiative = 11
-        self.max_AP = self.Action_points()
-        self.current_AP = self.Action_points()
-        self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {'Жажда крови': self.Bite}
         self.Passive_skills = {}
        
@@ -76,9 +70,6 @@ class Howleress(bc.BaseCharacter):
         self.current_health = 70
         self.strenght = 15
         self.initiative = 10
-        self.max_AP = self.Action_points()
-        self.current_AP = self.Action_points()
-        self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {'Raise the Dead!': self.RaiseTheDead, 
                               'Healing mourn': self.Healing,}
         self.Passive_skills = {}
@@ -87,8 +78,7 @@ class Howleress(bc.BaseCharacter):
         """
         Resurrects one of the dead units and gives them 15 hp
         """
-        COST = 10
-        COOLDOWN = 5
+        COOLDOWN = 6
         friendly_unit.alive = True
         friendly_unit.current_health = 35
         self.skills_on_CD.update({'Raise The Dead': COOLDOWN})        
@@ -113,9 +103,6 @@ class Mara(bc.BaseCharacter):
         self.current_health = 100
         self.strenght = 10
         self.initiative = 15
-        self.max_AP = self.Action_points()
-        self.current_AP = self.Action_points()
-        self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
         self.Passive_skills = {}
         
@@ -123,8 +110,6 @@ class Mara(bc.BaseCharacter):
         """
         Controlling SINGLE_TARGET.
         """
-        COST = 5
-        self.current_AP -= COST
         enemy_unit.initiative = 0
         enemy_unit.effects.update({'Horror': 2})
 
@@ -139,8 +124,5 @@ class Ghoul(bc.BaseCharacter):
         self.current_health = 120
         self.strenght = 13
         self.initiative = 10
-        self.max_AP = self.Action_points()
-        self.current_AP = self.Action_points()
-        self.AP_restore = self.AP_restore_speed()
         self.Active_skills = {}
         self.Passive_skills = {}

@@ -66,11 +66,3 @@ class BaseCharacter():
     def Check_current_health(self, current_health, max_health):
         if current_health > max_health:
             current_health = max_health
-
-    def Action_points(self):
-        AP = int(round(self.strenght + self.initiative) / (1+(self.rage/100)))
-        return AP
-
-    def AP_restore_speed(self):
-        APRS = (self.strenght + self.initiative) / 5 + (self.morality + self.rage / 100)
-        return APRS
