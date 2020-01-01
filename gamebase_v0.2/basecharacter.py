@@ -78,8 +78,22 @@ class BaseCharacter():
     def Check_Morality(self):
         if self.morality < 0:
             self.morality = 0
+
+    def CooldownSkills(self):
+        for skill in self.skills_on_CD:
+            skill_CD = self.skills_on_CD.get(skill)
+            skill_CD =- 1
+            if skill_CD >= 0:
+                del self.skills_on_CD[skill]
     
     def Check_skill_target(self,skill):
-        check_ckill = self.Active_skills.get(skill)
-        action = check_ckill[0]
-        print(action)
+        target = self.Active_skills.get(skill)
+        if target == 'target':
+            skill_target = 'enemy target'
+        elif target == 'team':
+            skill_target = 'enemy team'
+        elif target == 'f_target':
+            skill_target = 'player unit'
+        elif target == 'f_team':
+            skill_target = 'player team'
+        return skill_target
