@@ -25,7 +25,7 @@ def Auto_Battle(player_team, enemy_team):
             if not battle_loop: break
         print('End of the round ', round_count, '. \n')
         round_count +=1
-
+'''
 def Half_Auto_Battle(player_team, enemy_team):
     general_queue = bm.general_queue_logic(player_team, enemy_team)
     round_count = 1
@@ -40,7 +40,7 @@ def Half_Auto_Battle(player_team, enemy_team):
             defending_team = defence_turn(unit, player_team, enemy_team)
             if unit in player_team:
                 pass
-
+'''
 def Player_choice(unit):
     possible_choice = []
     for skill in enumerate(unit.active_skills):
@@ -68,7 +68,8 @@ def unit_turn(unit, enemy_team):
         if unit.alive:
             current_choice.append(unit)
     enemy_unit = random.choice(current_choice)
-    enemy_unit.current_health = bm.single_target_attack(unit.Attack(), enemy_unit.current_health)
+    unit.Attack(enemy_unit)
+    #enemy_unit.current_health = bm.single_target_attack(unit.Attack(), enemy_unit.current_health)
     print(f'{enemy_unit.name} got {enemy_unit.current_health} HP left')
     enemy_unit.Is_alive()
     print(enemy_unit.alive)
