@@ -32,14 +32,14 @@ class BaseCharacter():
         self.skills_on_CD = {}
         self.alive = True
         
-    def Attack(self):
+    def Attack(self, target):
         """
         Basic Attack.
         Checks character's strenght only.
         """
         damage_points = random.randint(1,20) * (self.morality/100) * (1-(self.rage/100)) # perhaps should change to 30-40? or even 50 maybe
         total_damage = check_parameter(self.strenght, damage_points)
-        return total_damage
+        target.current_health -= total_damage
     
     def Defence(self):
         """
