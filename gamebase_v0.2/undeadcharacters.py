@@ -38,14 +38,8 @@ class Imp(bc.BaseCharacter):
     # Конец активных способностей
 
     # ПАССИВНЫЕ СПОСОБНОСТИ
-    # Конец пассивных способностей
+    # Конец пассивных способностей       
 
-    def chosenSkill(self,skill, target):
-        if skill == 'Атака':
-            self.Attack()
-        elif skill == 'Двойной удар':
-            self.DoubleStrike()
-        
 
 
 class Vampire(bc.BaseCharacter):
@@ -73,12 +67,9 @@ class Vampire(bc.BaseCharacter):
         total_bite = bc.check_parameter(self.strenght, biting_points)
         enemy_unit.current_health -= total_bite
         self.current_health += total_bite
-        self.Check_current_health(self.current_health, self.max_health)
+        self.Check_current_health()
         self.skills_on_CD.update({'Жажда крови': cooldown})
     # Конец активных способностей
-
-    def chosenSkill(self, skill, target):
-        pass
 
 
 
@@ -95,9 +86,9 @@ class Howleress(bc.BaseCharacter):
         self.strenght = 11
         self.initiative = 12
         self.Active_skills ={'Атака': 'target',
-                              'Не время умирать!': 'f_target', 
-                              'Вой по живым': 'f_target',
-                              'Mass Healing': 'f_team'}
+                              'Не время умирать!': 'friendly target', 
+                              'Вой по живым': 'friendly target',
+                              'Mass Healing': 'friendly team'}
         self.Passive_skills = {}
 
     # АКТИВНЫЕ СПОСОБНОСТИ
@@ -130,9 +121,6 @@ class Howleress(bc.BaseCharacter):
             unit.Check_current_health()
         self.skills_on_CD.update({'Mass Healing': cooldown})
     # Конец активных способонстей
-
-    def chosenSkill(self, skill, target):
-        pass
 
 
 
@@ -171,14 +159,6 @@ class Mara(bc.BaseCharacter):
         self.skills_on_CD.update({'Mass_Horror': COOLDOWN})
     # Конец активных способностей
 
-    def chosenSkill(self, skill, target):
-        if skill == 'Атака':
-            self.Attack()
-        elif skill == 'Ужас':
-            self.Horror(target)
-        elif skill == 'Mass Horror':
-            self.MassHorror(target)
-
 
 
 class Ghoul(bc.BaseCharacter):
@@ -193,7 +173,7 @@ class Ghoul(bc.BaseCharacter):
         self.strenght = 13
         self.initiative = 10
         self.Active_skills = {'Атака': 'target',
-                              'Mass Strenght Buff': 'f_team',}
+                              'Mass Strenght Buff': 'friendly team',}
         self.Passive_skills = {}
 
     # АКТИВНЫЕ СПОСОБНОСТИ
@@ -206,9 +186,3 @@ class Ghoul(bc.BaseCharacter):
             unit.effects.update({'Strenght buff': duration})
         self.skills_on_CD.update({'Mass Strenght Buff': cooldown})
     # Конец активных способностей
-
-    def chosenSkill(self, skill, target):
-        if skill == 'Атака':
-            self.Attack()
-        if skill == 'Mass Strenght Buff':
-            self.MassStrenghtBuff(target)
