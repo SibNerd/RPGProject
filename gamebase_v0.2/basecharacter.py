@@ -85,15 +85,3 @@ class BaseCharacter():
             skill_CD =- 1
             if skill_CD >= 0:
                 del self.skills_on_CD[skill]
-    
-    def Check_skill_target(self,skill):
-        target = self.Active_skills.get(skill)
-        if target == 'target':
-            skill_target = 'enemy target'
-        elif target == 'team':
-            skill_target = 'enemy team'
-        elif target == 'f_target':
-            skill_target = 'player unit'
-        elif target == 'f_team':
-            skill_target = 'player team'
-        return skill_target
