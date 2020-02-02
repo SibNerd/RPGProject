@@ -11,13 +11,11 @@ def Auto_Battle(player_team, enemy_team):
     battle_loop = True
     while battle_loop:
         print(round_count, 'Round! Begin!')
-        #round_units_queue =  general_round_queue(player_team, enemy_team)
-        #general_queue = bm.general_queue_logic(player_team, enemy_team)
         round_queue = big_battle_queue(general_queue)
         print(present_units(general_queue))
-        print(units_in_battle(round_queue))
+        print('Юниты в бою: ', units_in_battle(round_queue))
         for unit in round_queue:
-            print(f"It's {unit.name}'s turn to go. {unit.name} Has {unit.current_health} HP")
+            print(f"\nIt's {unit.name}'s turn to go. {unit.name} Has {unit.current_health} HP")
             defending_team = defence_turn(unit, player_team, enemy_team)
             enemy_unit = unit_turn(unit, defending_team)
             check_unit_from_team(enemy_unit, round_queue)
@@ -25,30 +23,80 @@ def Auto_Battle(player_team, enemy_team):
             if not battle_loop: break
         print('End of the round ', round_count, '. \n')
         round_count +=1
-'''
+
 def Half_Auto_Battle(player_team, enemy_team):
     general_queue = bm.general_queue_logic(player_team, enemy_team)
     round_count = 1
     is_battle = True
     while is_battle:
-        print(round_count, 'Round! Begin!')
+        print(round_count, 'Раунд! Начали!')
         round_queue = big_battle_queue(general_queue)
-        print(present_units(general_queue))
-        print(units_in_battle(round_queue))
         for unit in round_queue:
-            print(f"It's {unit.name}'s turn to go. {unit.name} Has {unit.current_health} HP")
+            print('\nЮниты в бою:', units_in_battle(round_queue))
+            print(f"Cейчас ходит {unit.name}.")
             defending_team = defence_turn(unit, player_team, enemy_team)
             if unit in player_team:
-                pass
-'''
-def Player_choice(unit):
+                chosen_skill = PlayerSkillChoice(unit)
+                skill_side_target = unit.Active_skills[chosen_skill]
+                skill_side = ChosenSide(skill_side_target, player_team, enemy_team)
+                enemy_target = ChosenSkillTarget(skill_side_target, skill_side)
+                UseSkill(unit, chosen_skill, enemy_target)
+            else: 
+                enemy_target = unit_turn(unit, defending_team)
+            check_unit_from_team(enemy_target, round_queue)
+            is_battle = check_for_battle_loop(player_team, enemy_team, round_queue)
+            if not is_battle: break
+        print(f'Конец {round_count} раунда. \n')
+        round_count +=1
+            
+           
+
+def PlayerSkillChoice(unit):
     possible_choice = []
-    for skill in enumerate(unit.active_skills):
+    for skill in enumerate(unit.Active_skills):
         if skill not in unit.skills_on_CD:
             possible_choice.append(skill)
-    print('You can choose one skill to use, put a number please: ', possible_choice)
-    chosen_skill = input()
-    print(f'You chose {possible_choice[chosen_skill][1]}')
+    print('Выберите номер способности, которую хотите использовать', possible_choice)
+    answer = int(input())
+    skill_name = possible_choice[answer][1]
+    return skill_name
+
+def ChosenSide(skill_target, player_team, enemy_team):
+    if 'friendly' in skill_target:
+        chosen_team = player_team
+    else:
+        chosen_team = enemy_team
+    return chosen_team
+
+def ChosenSkillTarget(chosen_skill, team):
+    if 'team' in chosen_skill:
+        chosen_target = ChooseTeam(team)
+    elif 'target' in chosen_skill:
+        chosen_target = ChooseTarget(team)
+    return chosen_target
+
+def ChooseTarget(team):
+    target_choice = []
+    for pair in enumerate(team):
+        if pair[1].alive:
+            target_choice.append([pair[0], pair[1].name])
+    print('Выберите номер противника, которого хотите сделать целью способности', target_choice)
+    answer = int(input())
+    for unit in team:
+        if unit.name == target_choice[answer][1]:
+            target = unit
+    return target
+
+def ChooseTeam(team):
+    team_choice = []
+    for unit in team:
+        if unit.alive:
+            team_choice.append(unit)
+    return team_choice
+
+def UseSkill(unit, skill_name, chosen_target):
+    skill = getattr(unit, skill_name)
+    skill(chosen_target)
 
 def big_battle_queue(original_queue):
     battle_queue = []
@@ -69,12 +117,9 @@ def unit_turn(unit, enemy_team):
             current_choice.append(unit)
     enemy_unit = random.choice(current_choice)
     unit.Attack(enemy_unit)
-    #enemy_unit.current_health = bm.single_target_attack(unit.Attack(), enemy_unit.current_health)
-    print(f'{enemy_unit.name} got {enemy_unit.current_health} HP left')
     enemy_unit.Is_alive()
-    print(enemy_unit.alive)
     return enemy_unit
-    
+
 def defence_turn(unit, player_team, enemy_team):
     # Вывела проверку на принадлежность к команде в отдельную функцию, чтобы не было кучи вложенных циклов
     # Решила, что стоит возвращать список защищающейся команды
@@ -91,10 +136,21 @@ def check_for_battle_loop(player_team, enemy_team, big_queue):
         return False
     else: return True
 
-def check_unit_from_team(unit, round_queue):
+def check_unit_from_team(target, round_queue):
     # If unit is dead, removes it from queues and team
-    if not unit.alive:
-        round_queue.remove(unit)
+    if 'list' not in str(type(target)):
+        print(f'У {target.name} осталось {target.current_health} здоровья.')
+        target.Is_alive()
+        if not target.alive:
+            round_queue.remove(target)
+            print(f'{target.name} умер.')
+    else:
+        for unit in target:
+            print(f'У {unit.name} осталось {unit.current_health} здоровья.')
+            unit.Is_alive
+            if not unit.alive:
+                round_queue.remove(unit)
+                print(f'{unit.name} умер.')
 
 # Данные две функции просто для наглядности выводят общий список и список очереди соответственно
 
@@ -107,5 +163,5 @@ def present_units(big_queue):
 def units_in_battle(round_q):
     rq = []
     for unit in round_q:
-        rq.append(unit.name)
+        rq.append([unit.name, unit.current_health])
     return(rq)
