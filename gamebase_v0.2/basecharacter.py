@@ -6,7 +6,7 @@ All team characters are based on BaseCharacter with modifications.
 import random
 
 CRITICAL_GOOD = range(0,5) 
-# Perhaps won't be used, but still better be named CRITICAL_BAD = range(15, 20)
+CRITICAL_BAD = range(15, 20)
 
 def check_parameter (character_parameter, checking_points):
     """
@@ -23,6 +23,17 @@ def check_parameter (character_parameter, checking_points):
         resulting_points = 0
     return resulting_points
 
+def Check_critical(character_parameter):
+    luck_factor = random.randint(0, 20)
+    if luck_factor in CRITICAL_BAD:
+        result = 0
+    elif luck_factor in CRITICAL_GOOD:
+        result = character_parameter * 2
+    else:
+        result = character_parameter
+    return result
+
+
 class BaseCharacter():
     def __init__(self):
         self.morality = 100
@@ -37,8 +48,8 @@ class BaseCharacter():
         Basic Attack.
         Checks character's strenght only.
         """
-        damage_points = random.randint(1,20) * (self.morality/100) * (1-(self.rage/100)) # perhaps should change to 30-40? or even 50 maybe
-        total_damage = check_parameter(self.strenght, damage_points)
+        damage_points = Check_critical(self.strenght)
+        total_damage = int(damage_points * (self.morality/100) * (1-(self.rage/100)))
         target.current_health -= total_damage
     
     def Defence(self):
@@ -83,5 +94,5 @@ class BaseCharacter():
         for skill in self.skills_on_CD:
             skill_CD = self.skills_on_CD.get(skill)
             skill_CD =- 1
-            if skill_CD >= 0:
+            if skill_CD <= 0:
                 del self.skills_on_CD[skill]
