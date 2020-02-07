@@ -17,8 +17,19 @@ class HouseSpirit (bc.BaseCharacter):
         self.current_health = 80
         self.strenght = 12
         self.initiative = 15
-        self.Active_skills = {'Атака': self.Attack,}
+        self.Active_skills = {'Attack': 'target',
+                              'SuperDamage': 'target',}
         self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    def SuperDamage(self, target):
+        cooldown = 3
+        damage = int(self.strenght*1.5)
+        target.current_health -= damage
+        self.skills_on_CD.update({'SuperDamage': cooldown})
+            
+    # Конец активных способностей
 
 
 
@@ -33,9 +44,30 @@ class Witcher(bc.BaseCharacter):
         self.current_health = 130
         self.strenght = 16
         self.initiative = 8
-        self.Active_skills = {'Атака': self.Attack,}
+        self.Active_skills = {'Attack': 'target',
+                              'DamageAndStun': 'target',
+                              'DamageBuff': 'self'}
         self.Passive_skills = {}
+    
+    # АКТИВНЫЕ СПОСОБНОСТИ
 
+    def DamageAndStun(self, target):
+        cooldown = 4
+        damage = self.strenght
+        stun_duration = 2
+        target.current_health -= damage
+        target.effects.update({'Stun': stun_duration})
+        self.skills_on_CD.update({'DamageAndStun': cooldown})
+    
+    def DamageBuff(self):
+        cooldown = 4
+        buff_amount = 3
+        buff_duration = 2
+        self.strenght += buff_amount
+        self.effects.update({'DamageBuff': buff_duration})
+        self.skills_on_CD.update({'DamageBuff': cooldown})
+            
+    # Конец активных способностей
 
 
 class Protectress(bc.BaseCharacter):
@@ -49,9 +81,29 @@ class Protectress(bc.BaseCharacter):
         self.current_health = 90
         self.strenght = 10
         self.initiative = 10
-        self.Active_skills = {'Атака': self.Attack,}
+        self.Active_skills = {'Attack': 'target',
+                              'TargetHealing': 'friendly target'
+                              'RageDebuff': 'friendly team',}
         self.Passive_skills = {}
 
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    def RageDebuff(self, target):
+        cooldown = 2
+        debuff_amount = 10
+        for unit in target:
+            unit.rage -= debuff_amount
+        self.skills_on_CD.update({'RageDebuff': cooldown})
+
+    def TargetHealing(self, target):
+        cooldown = 3
+        healing_amount = 15
+        target.current_health += healing_amount
+        target.Check_current_health()
+        self.skills_on_CD.update({'TargetHealing': cooldown})
+            
+    # Конец активных способностей
+    
 
 
 class HeroWarrior(bc.BaseCharacter):
@@ -65,8 +117,32 @@ class HeroWarrior(bc.BaseCharacter):
         self.current_health = 170
         self.strenght = 12
         self.initiative = 5
-        self.Active_skills = {'Атака': self.Attack,}
+        self.Active_skills = {'Attack': 'target',
+                              'TeamInitiativeBuff': 'friendly team',
+                              'TeamMoralityBuff': 'friendly team',}
         self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    def TeamInitiativeBuff(self, target):
+        cooldown = 3
+        buff_amount = 3
+        buff_duration = 2
+        for unit in target:
+            unit.initiative += buff_amount
+            unit.effects.update({'InitiativeBuff': buff_duration})
+        self.skills_on_CD.update({'TeamInitiativeBuff': cooldown}) 
+    
+    def TeamMoralityBuff(self, target):
+        cooldown = 3
+        buff_amount = 20
+        buff_duration = 2
+        for unit in target:
+            unit.morality += buff_amount
+            unit.effects.update({'MoralityBuff': buff_duration})
+        self.skills_on_CD.update({'TeamMoralityBuff': cooldown})
+            
+    # Конец активных способностей
 
 
 
@@ -81,18 +157,28 @@ class Druid(bc.BaseCharacter):
         self.current_health = 100
         self.strenght = 11
         self.initiative = 12
-        self.Active_skills = {'Атака': self.Attack,}
+        self.Active_skills = {'Attack': 'target',
+                              'TeamStrenghtDebuff': 'team',
+                              'TargetInitiativeDebugg': 'target'}
         self.Passive_skills = {}
 
-    def Mass_Strenght_Debuff(self, enenmies):
-        COOLDOWN = 4
-        for unit in enenmies:
-            unit.strenght -= 4
-            unit.effects.update({'Stun': 3})
-        self.skills_on_CD.update({"Mass_Strenght_Debuff": COOLDOWN})
+    # АКТИВНЫЕ СПОСОБНОСТИ
     
-    def Target_Initiative_Debuff(self, enemy):
+    def TeamStrenghtDebuff(self, enenmies):
+        COOLDOWN = 4
+        debuff_amount = 4
+        debuff_duration = 3
+        for unit in enenmies:
+            unit.strenght -= debuff_amount
+            unit.effects.update({'StrenghtDebuff': debuff_duration})
+        self.skills_on_CD.update({"TeamStrenghtDebuff": COOLDOWN})
+    
+    def TargetInitiativeDebuff(self, enemy):
         COOLDOWN = 3
-        enemy.initiative -= 3
-        enemy.effects.update({'Initiative debuff': 2})
-        self.skills_on_CD.update({'Target Initiative Debuff': COOLDOWN})
+        debuff_amount = 3
+        debuff_duration = 2
+        enemy.initiative -= debuff_amount
+        enemy.effects.update({'InitiativeDebuff': debuff_duration})
+        self.skills_on_CD.update({'TargetInitiativeDebuff': COOLDOWN})
+            
+    # Конец активных способностей
