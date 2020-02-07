@@ -23,6 +23,7 @@ class Imp(bc.BaseCharacter):
         self.Passive_skills = {}
     
     # АКТИВНЫЕ СПОСОБНОСТИ
+
     def DoubleStrike(self, target):
         """
         Deals Damage to a target TWICE
@@ -34,6 +35,7 @@ class Imp(bc.BaseCharacter):
             dealt_damage = bc.check_parameter((self.strenght-2), damage_points)
             target.current_health -= dealt_damage
         self.skills_on_CD.update({"DoubleStrike": cooldown})
+
     # Конец активных способностей
 
     # ПАССИВНЫЕ СПОСОБНОСТИ
@@ -57,6 +59,7 @@ class Vampire(bc.BaseCharacter):
         self.Passive_skills = {}
 
     # АКТИВНЫЕ СПОСОБНОСТИ
+
     def Bite(self, enemy_unit):
         """
         Main ablity, Vampire not only gamages enemy, but also restores it's health.
@@ -69,6 +72,7 @@ class Vampire(bc.BaseCharacter):
         self.current_health += total_bite
         self.Check_current_health()
         self.skills_on_CD.update({'Bite': cooldown})
+
     # Конец активных способностей
 
 
@@ -92,6 +96,7 @@ class Howleress(bc.BaseCharacter):
         self.Passive_skills = {}
 
     # АКТИВНЫЕ СПОСОБНОСТИ
+
     def RaiseTheDead(self, friendly_unit):
         """
         Resurrects one of the dead units and gives them 35 hp
@@ -121,6 +126,7 @@ class Howleress(bc.BaseCharacter):
             unit.current_health += healing_done
             unit.Check_current_health()
         self.skills_on_CD.update({'Mass Healing': cooldown})
+
     # Конец активных способонстей
 
 
@@ -143,6 +149,7 @@ class Mara(bc.BaseCharacter):
         self.Passive_skills = {}
 
     # АКТИВНЫЕ СПОСОБНОСТИ 
+
     def Horror(self, enemy_unit):
         """
         Controlling SINGLE_TARGET.
@@ -158,6 +165,7 @@ class Mara(bc.BaseCharacter):
             unit.initiative = 0
             unit.effects.update({'Stun': 2})
         self.skills_on_CD.update({'MassHorror': COOLDOWN})
+
     # Конец активных способностей
 
 
@@ -178,6 +186,7 @@ class Ghoul(bc.BaseCharacter):
         self.Passive_skills = {}
 
     # АКТИВНЫЕ СПОСОБНОСТИ
+
     def TeamStrenghtBuff(self, team):
         cooldown = 4
         duration = 2
@@ -186,4 +195,5 @@ class Ghoul(bc.BaseCharacter):
             unit.strenght += base_value
             unit.effects.update({'Strenght buff': duration})
         self.skills_on_CD.update({'TeamStrenghtBuff': cooldown})
+        
     # Конец активных способностей
