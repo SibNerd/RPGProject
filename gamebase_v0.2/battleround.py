@@ -6,6 +6,12 @@ import battlemode as bm
 import random
 
 def Auto_Battle(player_team, enemy_team):
+    """Function for automated battle. The only active ability is Attack.
+    
+    Arguments:
+        player_team {list} -- list of player units
+        enemy_team {list} -- list of enemy units
+    """
     general_queue = bm.general_queue_logic(player_team, enemy_team)
     round_count = 1
     battle_loop = True
@@ -25,6 +31,12 @@ def Auto_Battle(player_team, enemy_team):
         round_count +=1
 
 def Half_Auto_Battle(player_team, enemy_team):
+    """PvE battle. Units can use all their abilities.
+    
+    Arguments:
+        player_team {list} -- list of player units
+        enemy_team {list} -- list of enemy units
+    """
     general_queue = bm.general_queue_logic(player_team, enemy_team)
     round_count = 1
     is_battle = True
@@ -52,6 +64,14 @@ def Half_Auto_Battle(player_team, enemy_team):
            
 
 def PlayerSkillChoice(unit):
+    """Function for choosing an unit abitily.
+    
+    Arguments:
+        unit {object} -- current unit.
+    
+    Returns:
+        str -- name of chosen skill
+    """
     possible_choice = []
     for skill in enumerate(unit.Active_skills):
         if skill not in unit.skills_on_CD:
@@ -62,6 +82,16 @@ def PlayerSkillChoice(unit):
     return skill_name
 
 def ChosenSide(skill_target, player_team, enemy_team):
+    """Function whis sets, whether ability's target player's or emeny's team.
+    
+    Arguments:
+        skill_target {string} -- description of chosen abitily's target
+        player_team {list} -- list of player's units
+        enemy_team {list} -- list of enemy's units
+    
+    Returns:
+        list -- chosen team
+    """
     if 'friendly' in skill_target:
         chosen_team = player_team
     else:
@@ -69,6 +99,15 @@ def ChosenSide(skill_target, player_team, enemy_team):
     return chosen_team
 
 def ChosenSkillTarget(chosen_skill, team):
+"""Function which sets, whether abitily's target will be single unit or whole team.
+
+Arguments:
+    chosen_skill {string} -- description of ability's target.
+    team {list} -- target team, which will be target or in which single target will be selected.
+
+Returns:
+    object / list -- ability's target, object for single unit and list for whole team.
+"""
     if 'team' in chosen_skill:
         chosen_target = ChooseTeam(team)
     elif 'target' in chosen_skill:
@@ -76,6 +115,14 @@ def ChosenSkillTarget(chosen_skill, team):
     return chosen_target
 
 def ChooseTarget(team):
+    """Function which sets single target.
+    
+    Arguments:
+        team {list} -- list of possible targets
+    
+    Returns:
+        object -- chosen target.
+    """
     target_choice = []
     for pair in enumerate(team):
         if pair[1].alive:
@@ -88,6 +135,14 @@ def ChooseTarget(team):
     return target
 
 def ChooseTeam(team):
+    """Function which sets all alive units in team as a target.
+    
+    Arguments:
+        team {list} -- list of all possible targets
+    
+    Returns:
+        list -- list of all chosen targets
+    """
     team_choice = []
     for unit in team:
         if unit.alive:
@@ -95,6 +150,13 @@ def ChooseTeam(team):
     return team_choice
 
 def UseSkill(unit, skill_name, chosen_target):
+    """Function which helps to apply unit's skill on it's target(s)
+    
+    Arguments:
+        unit {object} -- current unit
+        skill_name {string} -- mane of current skill
+        chosen_target {object/list} -- skill's target(s), object for single target and list for multiple targets
+    """
     skill = getattr(unit, skill_name)
     skill(chosen_target)
 
@@ -108,9 +170,16 @@ def big_battle_queue(original_queue):
     return round_units_queue
     
 def unit_turn(unit, enemy_team):
-    """
-    Автоход юнита. Прототип.
-    """
+"""Simple AI turn prototype.
+Uses basic Attack only.
+
+Arguments:
+    unit {object} -- current unit
+    enemy_team {list} -- list of all possible targets
+
+Returns:
+    object -- enemy unit with dealt damage
+"""
     current_choice = []
     for unit in enemy_team:
         if unit.alive:
@@ -121,15 +190,33 @@ def unit_turn(unit, enemy_team):
     return enemy_unit
 
 def defence_turn(unit, player_team, enemy_team):
-    # Вывела проверку на принадлежность к команде в отдельную функцию, чтобы не было кучи вложенных циклов
-    # Решила, что стоит возвращать список защищающейся команды
+    """Defending team checking
+    
+    Arguments:
+        unit {object} -- current acting unit
+        player_team {list} -- list of player's units
+        enemy_team {list} -- list of emeny's units
+    
+    Returns:
+        list -- defending team
+    """
     if unit in player_team:
         defending_team = enemy_team
     elif unit in enemy_team:
         defending_team = player_team
     return defending_team
 
-def check_for_battle_loop(player_team, enemy_team, big_queue): 
+def check_for_battle_loop(player_team, enemy_team, big_queue):
+    """Checks if both teams still have units. If not, sets loop = False
+    
+    Arguments:
+        player_team {list} -- list of all current player's units
+        enemy_team {list} -- list of all current emeny's units
+        big_queue {list} -- list of all current units in battle
+    
+    Returns:
+        bool -- True of both teams have at least one unit, False otherwise
+    """
     if (set(player_team) >= set(big_queue)):
         return False
     elif (set(enemy_team) >= set(big_queue)):
@@ -137,7 +224,12 @@ def check_for_battle_loop(player_team, enemy_team, big_queue):
     else: return True
 
 def check_unit_from_team(target, round_queue):
-    # If unit is dead, removes it from queues and team
+    """Checks if unit os dead and if so, removes it from queue
+    
+    Arguments:
+        target {object} -- target unit
+        round_queue {list} -- list of all currnet acting units
+    """
     if 'list' not in str(type(target)):
         print(f'У {target.name} осталось {target.current_health} здоровья.')
         target.Is_alive()
