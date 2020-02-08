@@ -61,7 +61,7 @@ class Werewolf(bc.BaseCharacter):
     
     def MoralityBuff(self, target):
         morality_amount = 15
-        buff_duration
+        buff_duration = 2
         cooldown = 4
         for unit in target:
             unit.morality += morality_amount
@@ -94,7 +94,7 @@ class Swampress(bc.BaseCharacter):
         cooldown = 4
         heal_value = 15
         for unit in team:
-            unit.current_health += value
+            unit.current_health += heal_value
             unit.Check_current_health()
         self.skills_on_CD.update({'MassHealing': cooldown})
 
@@ -182,7 +182,7 @@ class Kikimora(bc.BaseCharacter):
         debuff_amount = 3
         for unit in target:
             unit.initiative -= debuff_amount
-            unit.initiative('InitiativeDebuff': debuff_duration)
+            unit.effect.update({'InitiativeDebuff': debuff_duration})
         self.skills_on_CD.update({'InitiativeDebuff': cooldown})
 
     def RageBuff(self, target):
