@@ -9,10 +9,6 @@ import undeadcharacters as uc
 import humancharacters as hc
 import beastcharacters as bc
 
-"""
-All the Battle functions and logic are placed here.
-"""
-
 # BASIC ATTACKING FUNCTIONS
 
 def single_target_attack(attacking_character_damage, defending_character_health):
@@ -74,9 +70,14 @@ def Beasts_team_init():
 # TEAMS INITIATION
 
 def comand_init(target_fraction):
-    """
-    Initiation of chosen fraction command.
-    """
+"""Initiation of chosen fraction's command
+
+Arguments:
+    target_fraction {string} -- chosen fraction
+
+Returns:
+    list -- list of initialized units for battle
+"""
     #possible_fractions = (Undead, Humans, Beasts)
     if target_fraction == 'Undead':
         team = Undead_team_init()
@@ -87,6 +88,14 @@ def comand_init(target_fraction):
     return team
 
 def random_enemy_team(chosen_fraction):
+    """Initialises random enemy's team. Not the same as player's
+    
+    Arguments:
+        chosen_fraction {string} -- player's chosen fraction
+    
+    Returns:
+        list -- randomly set enemy's team
+    """
     possible_fractions = ['Undead', 'Humans', 'Beasts']
     possible_fractions.remove(chosen_fraction)
     enemy_fraction = random.choice(possible_fractions)
@@ -100,11 +109,15 @@ def random_enemy_team(chosen_fraction):
 # QUEUE LOGIC OF THE BATTLE
 
 def general_queue_logic(team_one_units, team_two_units):
-    """
-    Gets list of all the present aka ALIVE units in current round and puts them in the order 
-    of decreasing initiative points.
-    Team_one is PLAYER, Team_two is ENEMY.
-    """
+"""Gets every unit in battle and sets them in GENERAL QUEUE by decreasing initiative
+
+Arguments:
+    team_one_units {list} -- list of PLAYER units
+    team_two_units {list} -- list of ENEMY units
+
+Returns:
+    list -- GENERAL QUEUE with all units in battle
+"""
     general_queue = []
     for unit in team_one_units:
         general_queue.append([unit, unit.initiative])
@@ -114,13 +127,11 @@ def general_queue_logic(team_one_units, team_two_units):
     return general_queue
 
 def Unique_initiative(general_queue):
-    '''
-    Basically this function has to make sure every initiative is unic in battle queue but it 
-    doesn't. I'll try to come up with something better in future but for now it will add a 
-    bit of random in queue.
-
-    Might as well just delete it later.
-    '''
+    """Checks unit's initiative and if finds the same, randomises them
+    
+    Returns:
+        list -- randomised general queue
+    """
     s_samples = sorted(general_queue, reverse=True, key=lambda x: x[1])
     for i in range(len(s_samples)-1):
         j = i+1
