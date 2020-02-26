@@ -70,14 +70,14 @@ def Beasts_team_init():
 # TEAMS INITIATION
 
 def comand_init(target_fraction):
-"""Initiation of chosen fraction's command
+    """Initiation of chosen fraction's command
 
-Arguments:
-    target_fraction {string} -- chosen fraction
+    Arguments:
+        target_fraction {string} -- chosen fraction
 
-Returns:
-    list -- list of initialized units for battle
-"""
+    Returns:
+        list -- list of initialized units for battle
+    """
     #possible_fractions = (Undead, Humans, Beasts)
     if target_fraction == 'Undead':
         team = Undead_team_init()
@@ -109,14 +109,14 @@ def random_enemy_team(chosen_fraction):
 # QUEUE LOGIC OF THE BATTLE
 
 def general_queue_logic(team_one_units, team_two_units):
-"""Gets every unit in battle and sets them in GENERAL QUEUE by decreasing initiative
+    """Gets every unit in battle and sets them in GENERAL QUEUE by decreasing initiative
 
-Arguments:
-    team_one_units {list} -- list of PLAYER units
-    team_two_units {list} -- list of ENEMY units
+    Arguments:
+        team_one_units {list} -- list of PLAYER units
+        team_two_units {list} -- list of ENEMY units
 
-Returns:
-    list -- GENERAL QUEUE with all units in battle
+    Returns:
+        list -- GENERAL QUEUE with all units in battle
 """
     general_queue = []
     for unit in team_one_units:
