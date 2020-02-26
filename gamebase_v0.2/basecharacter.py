@@ -4,6 +4,7 @@ Has:
     Check_critical -- function for defoult Attack and other functions
 """
 import random
+import effects as EFFECTS
 
 # Зоны, в которых может выпасть значение кубика
 CRITICAL_GOOD = range(1,5) 
@@ -85,7 +86,8 @@ class BaseCharacter():
             target {object} -- target unit, who gets damage
         """
         damage_points = Check_critical(self.strenght)
-        total_damage = int(damage_points * (self.morality/100) * (1-(self.rage/100)))
+        modifiers = int((self.morality/100) * (1-(self.rage/100)))
+        total_damage = int(damage_points * modifiers)
         target.current_health -= total_damage
     
     def Defence(self):
@@ -116,7 +118,8 @@ class BaseCharacter():
             self.current_health = self.max_health
  
     def Check_Rage(self):
-        """Checks unit's rage.
+        """
+        Checks unit's rage.
         Doesn't let rage be more than 100 or lwss than 0.
         Decreases Rage with every turn.
         """
@@ -128,14 +131,16 @@ class BaseCharacter():
             self.rage = 0
 
     def Check_Morality(self):
-        """Check unit's morality.
+        """
+        Check unit's morality.
         Doesn't let it drop less than 0.
         """
         if self.morality < 0:
             self.morality = 0
 
     def CooldownSkills(self):
-        """Maintains skills' cooldown.
+        """
+        Maintains skills' cooldown.
         If skill's CD sets below 0, deletes if from CD.
         """
         for skill in self.skills_on_CD:
@@ -143,3 +148,29 @@ class BaseCharacter():
             skill_CD =- 1
             if skill_CD <= 0:
                 del self.skills_on_CD[skill]
+    
+    def ApplyActiveEffects(self):
+        """
+        Applies all current effects on unit.
+        Is used at the beginning of th e turn.
+        """
+        for effect in self.effects:
+            current_effect = self.effects.get(effect)
+            EFFECTS.ApplyEffect(current_effect)
+    
+
+    def CheckEffectCooldown(self):
+        """
+        Maintains effects' cooldowns.
+        Is used at the end of the turn.
+        """
+        for effect in self.effects:
+            current_effect = self.effects.get(effect)
+            if current_effect[0] == 'constant':
+                if current_effect[-1] <= 0:
+                    current_effect[1] = current_effect[0]
+                    del self.effects[effect]
+            elif current_effect[0] == 'progressive':
+                if current_effect[-1] <= 0:
+                    del self.effects[effect]
+        
