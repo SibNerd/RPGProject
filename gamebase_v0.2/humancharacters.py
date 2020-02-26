@@ -1,7 +1,5 @@
+"""Module for all HUMAN units.
 """
-Module for all the HUMAN units.
-"""
-
 import basecharacter as bc
 import random
 
@@ -25,7 +23,7 @@ class HouseSpirit (bc.BaseCharacter):
 
     def SuperDamage(self, target):
         cooldown = 3
-        damage = int(self.strenght*1.5)
+        damage = int(self.strenght*1.5 + self.morality/100 + self.rage/10)
         target.current_health -= damage
         self.skills_on_CD.update({'SuperDamage': cooldown})
             
@@ -56,15 +54,18 @@ class Witcher(bc.BaseCharacter):
         damage = self.strenght
         stun_duration = 2
         target.current_health -= damage
-        target.effects.update({'Stun': stun_duration})
+        base_attr = target.initiative
+        target.initiative = 0
+        target.effects.update({'Stun': ['constant', base_attr, target.initiative, stun_duration]})
         self.skills_on_CD.update({'DamageAndStun': cooldown})
     
     def DamageBuff(self):
         cooldown = 4
         buff_amount = 3
         buff_duration = 2
+        base_attr = self.strenght
         self.strenght += buff_amount
-        self.effects.update({'DamageBuff': buff_duration})
+        self.effects.update({'DamageBuff': ['constant', base_attr, self.strenght, buff_duration]})
         self.skills_on_CD.update({'DamageBuff': cooldown})
             
     # Конец активных способностей
@@ -82,7 +83,7 @@ class Protectress(bc.BaseCharacter):
         self.strenght = 10
         self.initiative = 10
         self.Active_skills = {'Attack': 'target',
-                              'TargetHealing': 'friendly target'
+                              'TargetHealing': 'friendly target',
                               'RageDebuff': 'friendly team',}
         self.Passive_skills = {}
 
@@ -129,8 +130,9 @@ class HeroWarrior(bc.BaseCharacter):
         buff_amount = 3
         buff_duration = 2
         for unit in target:
+            base_atr = unit.initiative
             unit.initiative += buff_amount
-            unit.effects.update({'InitiativeBuff': buff_duration})
+            unit.effects.update({'Initiative Buff': ['constant', base_atr, unit.initiative, buff_duration]})
         self.skills_on_CD.update({'TeamInitiativeBuff': cooldown}) 
     
     def TeamMoralityBuff(self, target):
@@ -138,8 +140,9 @@ class HeroWarrior(bc.BaseCharacter):
         buff_amount = 20
         buff_duration = 2
         for unit in target:
+            base_atr = unit.morality
             unit.morality += buff_amount
-            unit.effects.update({'MoralityBuff': buff_duration})
+            unit.effects.update({'Morality Buff', ['constant', base_atr, unit.morality, buff_duration]})
         self.skills_on_CD.update({'TeamMoralityBuff': cooldown})
             
     # Конец активных способностей
@@ -169,16 +172,18 @@ class Druid(bc.BaseCharacter):
         debuff_amount = 4
         debuff_duration = 3
         for unit in enenmies:
+            base_attr = unit.strenght
             unit.strenght -= debuff_amount
-            unit.effects.update({'StrenghtDebuff': debuff_duration})
+            unit.effects.update({'StrenghtDebuff': ['constant', base_attr, unit.strenght, debuff_duration]})
         self.skills_on_CD.update({"TeamStrenghtDebuff": COOLDOWN})
     
     def TargetInitiativeDebuff(self, enemy):
         COOLDOWN = 3
         debuff_amount = 3
         debuff_duration = 2
+        base_attr = enemy.initiative
         enemy.initiative -= debuff_amount
-        enemy.effects.update({'InitiativeDebuff': debuff_duration})
+        enemy.effects.update({'InitiativeDebuff': ['constant', base_attr, enemy.initiative, debuff_duration]})
         self.skills_on_CD.update({'TargetInitiativeDebuff': COOLDOWN})
             
     # Конец активных способностей

@@ -29,7 +29,7 @@ class Imp(bc.BaseCharacter):
         Deals Damage to a target TWICE
         """
         cooldown = 2
-        total_damage = list()
+        # total_damage = list()
         for i in range(2):
             damage_points = random.randint(1,20)
             dealt_damage = bc.check_parameter((self.strenght-2), damage_points)
@@ -112,20 +112,20 @@ class Howleress(bc.BaseCharacter):
         Вой по живым
         """
         COOLDOWN = 2
-        healing_points = random.randint(0,20)
-        healing_done = bc.check_parameter(self.strenght, healing_points) #mb change to CONST heal
+        healing_power = int((self.strenght + self.morality/100 + self.initiative/2))
+        healing_done = bc.Check_critical(healing_power)
         friendly_unit.current_health += healing_done
         friendly_unit.Check_current_health()
         self.skills_on_CD.update({"Healing": COOLDOWN})
     
     def MassHealing(self, team):
         cooldown = 4
-        healing_points = random.randint(0, 20)
-        healing_done = bc.check_parameter(self.strenght, healing_points)
+        healing_power = int((self.strenght + self.morality/100 + self.initiative/2))
+        healing_done = bc.Check_critical(healing_power)
         for unit in team:
             unit.current_health += healing_done
             unit.Check_current_health()
-        self.skills_on_CD.update({'Mass Healing': cooldown})
+        self.skills_on_CD.update({'MassHealing': cooldown})
 
     # Конец активных способонстей
 
@@ -145,25 +145,29 @@ class Mara(bc.BaseCharacter):
         self.initiative = 14
         self.Active_skills = {'Attack': 'target',
                               'Horror': 'target',
-                              'MassHoror': 'team',}
+                              'MassHorror': 'team',}
         self.Passive_skills = {}
 
     # АКТИВНЫЕ СПОСОБНОСТИ 
 
-    def Horror(self, enemy_unit):
+    def Horror(self, unit):
         """
         Controlling SINGLE_TARGET.
         """
         COOLDOWN = 3
-        enemy_unit.initiative = 0
-        enemy_unit.effects.update({'Stun': 3})
+        stun_duration = 2
+        base_attr = unit.initiative
+        unit.initiative = 0
+        unit.effects.update({'Stun': ['constant', base_attr, unit.initiative, stun_duration]})
         self.skills_on_CD.update({'Horror': COOLDOWN})
 
     def MassHorror(self, team):
         COOLDOWN = 5
+        stun_duration = 3
         for unit in team:
+            base_attr = unit.initiative
             unit.initiative = 0
-            unit.effects.update({'Stun': 2})
+            unit.effects.update({'Stun': ['constant', base_attr, unit.initiative, stun_duration]})
         self.skills_on_CD.update({'MassHorror': COOLDOWN})
 
     # Конец активных способностей
@@ -192,8 +196,9 @@ class Ghoul(bc.BaseCharacter):
         duration = 2
         base_value = 5
         for unit in team:
+            base_attr = unit.strenght
             unit.strenght += base_value
-            unit.effects.update({'Strenght buff': duration})
+            unit.effects.update({'Strenght buff': ['constant', base_attr, unit.strenght, duration]})
         self.skills_on_CD.update({'TeamStrenghtBuff': cooldown})
         
     # Конец активных способностей
