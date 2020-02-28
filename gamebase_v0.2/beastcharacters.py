@@ -15,7 +15,7 @@ class Bather(bc.BaseCharacter):
         self.max_health = 90
         self.current_health = 90
         self.strenght = 12
-        self.initiative = 13
+        self.initiative = 15
         self.Active_skills = {'Attack': 'target',
                               'DamageAndStun': 'target'}
         self.Passive_skills = {}
@@ -29,7 +29,7 @@ class Bather(bc.BaseCharacter):
         target.current_health -= (damage)
         base_attr = target.initiative
         target.initiative = 0
-        target.effects.update({'Stun': ['constant', base_attr, target.initiative, stun_duration]})
+        target.effects.update({'Stun': ['constant', base_attr, 'initiative', stun_duration]})
         self.skills_on_CD.update({'DamageAndStun': cooldown})
 
     # Конец активных способностей
@@ -43,9 +43,9 @@ class Werewolf(bc.BaseCharacter):
     def __init__(self):
         super().__init__()
         self.name = 'Волколак'
-        self.max_health = 120
-        self.current_health = 120
-        self.strenght = 12
+        self.max_health = 130
+        self.current_health = 130
+        self.strenght = 14
         self.initiative = 12
         self.Active_skills = {'Attack': 'target',
                               'StrenghtBuff': 'self',
@@ -60,7 +60,7 @@ class Werewolf(bc.BaseCharacter):
         value = 3
         base_attr = self.strenght
         self.strenght += value
-        self.effects.update({'StrenghtBuff': ['constant', base_attr, self.strenght, cooldown]})
+        self.effects.update({'StrenghtBuff': ['constant', base_attr, 'strenght', cooldown]})
     
     def MoralityBuff(self, target):
         morality_amount = 15
@@ -69,7 +69,7 @@ class Werewolf(bc.BaseCharacter):
         for unit in target:
             base_attr = unit.morality
             unit.morality += morality_amount
-            unit.effects.update({'MoralityBuff': ['constant', base_attr, unit.morality, buff_duration]})
+            unit.effects.update({'MoralityBuff': ['constant', base_attr, 'morality', buff_duration]})
         self.skills_on_CD.update({'MoralityBuff': cooldown})
 
     # Конец активных способностей
@@ -85,7 +85,7 @@ class Swampress(bc.BaseCharacter):
         self.name = 'Болотница'
         self.max_health = 100
         self.current_health = 100
-        self.strenght = 10
+        self.strenght = 9
         self.initiative = 10
         self.Active_skills = {'Attack': 'target',
                               'MassHealing': 'friendly team',
@@ -108,7 +108,7 @@ class Swampress(bc.BaseCharacter):
         buff_duration = 2
         base_attr = unit.strenght
         unit.strenght += buff_amount
-        unit.effects.update({'StrenghtBuff', ['constant', base_attr, unit.strenght, buff_duration]})
+        unit.effects.update({'StrenghtBuff', ['constant', base_attr, 'strenght', buff_duration]})
         self.skills_on_CD.update({'TargetStrenghtBuff': cooldown})
 
     # Конец активных способностей
@@ -121,10 +121,10 @@ class Werebear(bc.BaseCharacter):
     def __init__(self):
         super().__init__()
         self.name = 'Берендей'
-        self.max_health = 200
-        self.current_health = 200
-        self.strenght = 10
-        self.initiative = 15
+        self.max_health = 190
+        self.current_health = 190
+        self.strenght = 8
+        self.initiative = 6
         self.Active_skills = {'Attack': 'target',
                               'InitiativeBuff': 'friendly team',
                               'InitiativeBuffRageDebuff': 'team',}
@@ -139,7 +139,7 @@ class Werebear(bc.BaseCharacter):
         for unit in target:
             base_attr = unit.initiative
             unit.initiative += buff_amount
-            unit.effects.update({'InitiativeBuff': ['constant', base_attr, unit.initiative, buff_duration]})
+            unit.effects.update({'InitiativeBuff': ['constant', base_attr, 'initiative', buff_duration]})
         self.skills_on_CD.update({'InitiativeBuff': cooldown})
 
     def InitiativeBuffRageDebuff(self, target):
@@ -150,7 +150,7 @@ class Werebear(bc.BaseCharacter):
         for unit in target: 
             base_attr = unit.initiative
             unit.initiative += buff_amount
-            unit.effects.update({'InitiativeBuff': ['constant', base_attr, unit.initiative, buff_duration]})
+            unit.effects.update({'InitiativeBuff': ['constant', base_attr, 'initiative', buff_duration]})
             unit.rage -= debuff_amount
         self.skills_on_CD.update({'InitiativeBuffRageDebuff': cooldown})
         
@@ -165,9 +165,9 @@ class Kikimora(bc.BaseCharacter):
     def __init__(self):
         super().__init__()
         self.name = 'Кикимора'
-        self.max_health = 110
-        self.current_health = 110
-        self.strenght = 15
+        self.max_health = 130
+        self.current_health = 130
+        self.strenght = 13
         self.initiative = 7
         self.Active_skills = {'Attack': 'target',
                               'Stun': 'target',
@@ -178,25 +178,25 @@ class Kikimora(bc.BaseCharacter):
     # АКТИВНЫЕ СПОСОБНОСТИ
 
     def Stun(self, target):
-        cooldown = 3
-        stun_duration = 2
+        cooldown = 2
+        stun_duration = 1
         base_attr = target.initiative
         target.initiative = 0
-        target.effects.update({'Stun': ['constant', base_attr, target.initiative, stun_duration]})
+        target.effects.update({'Stun': ['constant', base_attr, 'initiative', stun_duration]})
         self.skills_on_CD.update({'Stun': cooldown})
 
     def InitiativeDebuff(self, target):
-        cooldown = 5
-        debuff_duration = 3
+        cooldown = 4
+        debuff_duration = 2
         debuff_amount = 3
         for unit in target:
             base_attr = unit.initiative
             unit.initiative -= debuff_amount
-            unit.effect.update({'InitiativeDebuff': ['constant', base_attr, unit.initiative, debuff_duration]})
+            unit.effect.update({'InitiativeDebuff': ['constant', base_attr, 'initiative', debuff_duration]})
         self.skills_on_CD.update({'InitiativeDebuff': cooldown})
 
     def RageBuff(self, target):
-        cooldown = 4
+        cooldown = 3
         buff_amount = 20
         buff_duration = 2
         target.rage += buff_amount

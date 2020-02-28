@@ -15,8 +15,8 @@ class Imp(bc.BaseCharacter):
         self.name = 'Анчутка'
         self.max_health = 60
         self.current_health = 60
-        self.strenght = 13
-        self.initiative = 15
+        self.strenght = 14
+        self.initiative = 20
         # self.agility = 10 # Used to check if unit dodged from damage
         self.Active_skills = {'Attack': 'target',
                               'DoubleStrike': 'target',}
@@ -50,10 +50,10 @@ class Vampire(bc.BaseCharacter):
     def __init__(self):
         super().__init__()
         self.name = 'Упырь'
-        self.max_health = 80
-        self.current_health = 80
+        self.max_health = 110
+        self.current_health = 110
         self.strenght = 17
-        self.initiative = 11
+        self.initiative = 15
         self.Active_skills = {'Attack': 'target',
                               'Bite': 'target',}
         self.Passive_skills = {}
@@ -87,8 +87,8 @@ class Howleress(bc.BaseCharacter):
         self.name = 'Вытьянка'
         self.max_health = 70
         self.current_health = 70
-        self.strenght = 11
-        self.initiative = 12
+        self.strenght = 13
+        self.initiative = 14
         self.Active_skills ={ 'Attack': 'target',
                               'RaiseTheDead': 'friendly target', 
                               'Healing': 'friendly target',
@@ -139,10 +139,10 @@ class Mara(bc.BaseCharacter):
     def __init__(self):
         super().__init__()
         self.name = 'Мара'
-        self.max_health = 100
-        self.current_health = 100
-        self.strenght = 11
-        self.initiative = 14
+        self.max_health = 110
+        self.current_health = 110
+        self.strenght = 17
+        self.initiative = 15
         self.Active_skills = {'Attack': 'target',
                               'Horror': 'target',
                               'MassHorror': 'team',}
@@ -158,7 +158,7 @@ class Mara(bc.BaseCharacter):
         stun_duration = 2
         base_attr = unit.initiative
         unit.initiative = 0
-        unit.effects.update({'Stun': ['constant', base_attr, unit.initiative, stun_duration]})
+        unit.effects.update({'Stun': ['constant', base_attr, 'initiative', stun_duration]})
         self.skills_on_CD.update({'Horror': COOLDOWN})
 
     def MassHorror(self, team):
@@ -167,7 +167,7 @@ class Mara(bc.BaseCharacter):
         for unit in team:
             base_attr = unit.initiative
             unit.initiative = 0
-            unit.effects.update({'Stun': ['constant', base_attr, unit.initiative, stun_duration]})
+            unit.effects.update({'Stun': ['constant', base_attr, 'initiative', stun_duration]})
         self.skills_on_CD.update({'MassHorror': COOLDOWN})
 
     # Конец активных способностей
@@ -181,10 +181,10 @@ class Ghoul(bc.BaseCharacter):
     def __init__(self):
         super().__init__()
         self.name = 'Вурдалак'
-        self.max_health = 120
-        self.current_health = 120
-        self.strenght = 13
-        self.initiative = 10
+        self.max_health = 140
+        self.current_health = 140
+        self.strenght = 14
+        self.initiative = 16
         self.Active_skills = {'Attack': 'target',
                               'TeamStrenghtBuff': 'friendly team',}
         self.Passive_skills = {}
@@ -198,7 +198,7 @@ class Ghoul(bc.BaseCharacter):
         for unit in team:
             base_attr = unit.strenght
             unit.strenght += base_value
-            unit.effects.update({'Strenght buff': ['constant', base_attr, unit.strenght, duration]})
+            unit.effects.update({'Strenght buff': ['constant', base_attr, 'strenght', duration]})
         self.skills_on_CD.update({'TeamStrenghtBuff': cooldown})
         
     # Конец активных способностей
