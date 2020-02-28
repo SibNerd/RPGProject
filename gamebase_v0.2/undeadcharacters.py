@@ -202,3 +202,103 @@ class Ghoul(bc.BaseCharacter):
         self.skills_on_CD.update({'TeamStrenghtBuff': cooldown})
         
     # Конец активных способностей
+
+
+
+class Skeleton(bc.BaseCharacter):
+    """
+    LOW DD UNIT.
+    """
+    def __init__(self):
+        super().__init__()
+        self.name = 'Костомаха'
+        self.max_health = 80
+        self.current_health = 80
+        self.strenght = 14
+        self.initiative = 17
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+
+class Poleman(bc.BaseCharacter):
+    """
+    HIGH DD UNIT.
+    """
+    def __init__(self):
+        super().__init__()
+        self.name = 'Жердяй'
+        self.max_health = 110
+        self.current_health = 110
+        self.strenght = 16
+        self.initiative = 13
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+
+class Kaduk(bc.BaseCharacter):
+    """
+    SUPPORT UNIT.
+    """
+    def __init__(self):
+        super().__init__()
+        self.name = 'Кадук'
+        self.max_health = 90
+        self.current_health = 90
+        self.strenght = 12
+        self.initiative = 15
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+
+class Babaiy(bc.BaseCharacter):
+    """
+    CONTROL UNIT.
+    """
+    def __init__(self):
+        super().__init__()
+        self.name = 'Бабай'
+        self.max_health = 110
+        self.current_health = 110 
+        self.strenght = 12
+        self.initiative = 11
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+
+class Ashsoul(bc.BaseCharacter):
+    """
+    TANK UNIT.
+    """
+    def __init__(self):
+        super().__init__()
+        self.name = 'Пепелюха'
+        self.max_health = 150
+        self.current_health = 150
+        self.strenght = 12
+        self.initiative = 11
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей

@@ -136,7 +136,7 @@ class HeroWarrior(bc.BaseCharacter):
         self.skills_on_CD.update({'TeamInitiativeBuff': cooldown}) 
     
     def TeamMoralityBuff(self, target):
-        cooldown = 3
+        cooldown = 5
         buff_amount = 20
         buff_duration = 2
         for unit in target:
@@ -186,4 +186,97 @@ class Druid(bc.BaseCharacter):
         enemy.effects.update({'InitiativeDebuff': ['constant', base_attr, 'initiative', debuff_duration]})
         self.skills_on_CD.update({'TargetInitiativeDebuff': COOLDOWN})
             
+    # Конец активных способностей
+
+
+
+class Firesoul(bc.BaseCharacter):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Огневик'
+        self.max_health = 90
+        self.current_health = 90
+        self.strenght = 11
+        self.initiative = 16
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+
+class SharpwindBird(bc.BaseCharacter):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Витар'
+        self.max_health = 120
+        self.current_health = 120
+        self.strenght = 15
+        self.initiative = 12
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+        
+class Mermaid(bc.BaseCharacter):
+    """
+    SUPPORT UNIT.
+    """
+    def __init__(self):
+        super().__init__()
+        self.name = 'Русалка'
+        self.max_health = 100
+        self.current_health = 100
+        self.strenght = 11
+        self.initiative = 11
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+
+class FieldLady(bc.BaseCharacter):
+    """
+    CONTROL UNIT.
+    """
+    def __init__(self):
+        super().__init__()
+        self.name = 'Паляха'
+        self.max_health = 110
+        self.current_health = 110
+        self.strenght = 13
+        self.initiative = 11
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+class Graveguard(bc.BaseCharacter):
+    """
+    TANK UNIT.
+    """
+    def __init__(self):
+        super().__init__()
+        self.name = 'Чергавы'
+        self.max_health = 170
+        self.current_health = 170
+        self.strenght = 14
+        self.initiative = 11
+        self.Active_skills = {}
+        self.Passive_skills = {}
+        
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
     # Конец активных способностей

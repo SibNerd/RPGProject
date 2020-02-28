@@ -204,3 +204,94 @@ class Kikimora(bc.BaseCharacter):
         self.skills_on_CD.update({'RageBuff': cooldown})
     
     # Конец активных способностей
+
+
+
+class Toad(bc.BaseCharacter):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Жабалка'
+        self.max_health = 100
+        self.current_health = 100
+        self.strenght = 11
+        self.initiative = 15
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+
+class Asp(bc.BaseCharacter):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Аспид'
+        self.max_health = 130
+        self.current_health = 130 
+        self.strenght = 15
+        self.initiative = 12
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+
+class Boletus(bc.BaseCharacter):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Боровик'
+        self.max_health = 180
+        self.current_health = 180
+        self.strenght = 13
+        self.initiative = 12
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+
+class TreeAspess(bc.BaseCharacter):
+    """
+    SUPPORT UNIT.
+    """
+    def __init__(self):
+        super().__init__()
+        self.name = 'Вужалка'
+        self.max_health = 130
+        self.current_health = 130
+        self.strenght = 12
+        self.initiative = 11
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
+
+
+
+class Forester(bc.BaseCharacter):
+    """
+    CONTROL UNIT.
+    """
+    def __init__(self):
+        super().__init__()
+        self.name = 'Леший'
+        self.max_health = 120
+        self.current_health = 120
+        self.strenght = 13
+        self.initiative = 9
+        self.Active_skills = {}
+        self.Passive_skills = {}
+
+    # АКТИВНЫЕ СПОСОБНОСТИ
+
+    # Конец активных способностей
