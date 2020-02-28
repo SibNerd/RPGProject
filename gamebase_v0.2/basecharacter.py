@@ -34,13 +34,7 @@ def Check_critical(character_parameter):
     Arguments:
         character_parameter {int} -- Defoult Character Number
         luck_factor {int} -- Random number used as a dice roll, then is checked on modificators.
-    
-    Modificators:
-        CRITICAL_GOOD = doubles result
-        GOOD = multiplies result by 1,5
-        AVERAGE = does nothing
-        BAD = divides result in half  
-        CRITICAL_BAD = sets result as 0   
+
     Returns:
         result -- integer value, result of a dice roll
     """
@@ -50,26 +44,17 @@ def Check_critical(character_parameter):
     elif luck_factor in BAD:
         result = character_parameter / 2
     elif luck_factor in GOOD:
-        result = character_parameter * 1,5
+        result = character_parameter * 1.5
     elif luck_factor in CRITICAL_GOOD:
         result = character_parameter * 2
     else:
         result = character_parameter
-    return result
+    return int(result)
 
 
 class BaseCharacter():
-    """Base module for every playable unit in game.
-    Has several basic functions.
-
-    Functions:
-    Attack - basic attack
-    Is_Alive - checks if unit is alive
-    Check_currentHealth - checks unit's health in battle
-    Check_Rage - checks unit's rage
-    Check_Morality - ckecks unit's morality
-    CooldownSkills - maintains skills on cooldown
-    
+    """
+    Basic unit class. Maintains general attributes and functions.
     """
     def __init__(self):
         self.morality = 100
@@ -80,14 +65,14 @@ class BaseCharacter():
         self.alive = True
         
     def Attack(self, target):
-        """Basic character Attack. Doesn't have a cooldown. Uses characters strenght and target's health.
+        """Basic character Attack. Doesn't have a cooldown. Uses characters strenght, rage adn morality and target's health.
         
         Arguments:
             target {object} -- target unit, who gets damage
         """
         damage_points = Check_critical(self.strenght)
         modifiers = int((self.morality/100) * (1-(self.rage/100)))
-        total_damage = int(damage_points * modifiers)
+        total_damage = damage_points * modifiers
         target.current_health -= total_damage
     
     def Defence(self):
@@ -104,15 +89,15 @@ class BaseCharacter():
         return defence_points
 
     def Is_alive(self):
-        """Checks if unit is alive.
-        If unit's current healt gets belov 0, unit dies.
+        """
+        Checks if unit is alive. If unit's current healt gets belov 0, unit dies.
         """
         if self.current_health <= 0:
             self.alive = False
         
     def Check_current_health(self):
-        """Checks unit's current health.
-        DOesn't let to have more than max_health.
+        """
+        Checks unit's current health. Doesn't let to have more than max_health.
         """
         if self.current_health > self.max_health:
             self.current_health = self.max_health
@@ -120,7 +105,7 @@ class BaseCharacter():
     def Check_Rage(self):
         """
         Checks unit's rage.
-        Doesn't let rage be more than 100 or lwss than 0.
+        Doesn't let rage be more than 100 or less than 0.
         Decreases Rage with every turn.
         """
         if self. rage > 100:
@@ -143,10 +128,9 @@ class BaseCharacter():
         Maintains skills' cooldown.
         If skill's CD sets below 0, deletes if from CD.
         """
-        for skill in self.skills_on_CD:
-            skill_CD = self.skills_on_CD.get(skill)
-            skill_CD =- 1
-            if skill_CD <= 0:
+        for skill in tuple(self.skills_on_CD):
+            self.skills_on_CD[skill] -= 1
+            if self.skills_on_CD[skill] <= 0:
                 del self.skills_on_CD[skill]
     
     def ApplyActiveEffects(self):
@@ -157,6 +141,7 @@ class BaseCharacter():
         for effect in self.effects:
             current_effect = self.effects.get(effect)
             EFFECTS.ApplyEffect(current_effect)
+            self.effects[effect][-1] -= 1
     
 
     def CheckEffectCooldown(self):
@@ -164,11 +149,11 @@ class BaseCharacter():
         Maintains effects' cooldowns.
         Is used at the end of the turn.
         """
-        for effect in self.effects:
+        for effect in tuple(self.effects):
             current_effect = self.effects.get(effect)
             if current_effect[0] == 'constant':
                 if current_effect[-1] <= 0:
-                    current_effect[1] = current_effect[0]
+                    setattr(self, current_effect[2], current_effect[1])
                     del self.effects[effect]
             elif current_effect[0] == 'progressive':
                 if current_effect[-1] <= 0:
