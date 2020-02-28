@@ -41,54 +41,73 @@ def Half_Auto_Battle(player_team, enemy_team):
     round_count = 1
     is_battle = True
     while is_battle:
-        print(round_count, 'Раунд! Начали!')
+        print(round_count, 'Раунд! Начали!')     
         round_queue = big_battle_queue(general_queue)
+        ApplyEffects(round_queue)
         for unit in round_queue:
-            print('\nЮниты в бою:', units_in_battle(round_queue))
-            print(f"Cейчас ходит {unit.name}.")
-            defending_team = defence_turn(unit, player_team, enemy_team)
-            if unit in player_team:
-                chosen_skill = PlayerSkillChoice(unit)
-                skill_side_target = unit.Active_skills[chosen_skill]
-                skill_side = ChosenSide(skill_side_target, player_team, enemy_team)
-                enemy_target = ChosenSkillTarget(skill_side_target, skill_side)
-                UseSkill(unit, chosen_skill, enemy_target)
-            else: 
-                enemy_target = unit_turn(unit, defending_team)
-            check_unit_from_team(enemy_target, round_queue)
-            is_battle = check_for_battle_loop(player_team, enemy_team, round_queue)
-            if not is_battle: break
+            if unit.initiative >0:
+                print('\nЮниты в бою:', units_in_battle(round_queue))
+                print(f"Cейчас ходит {unit.name}, сила: {unit.strenght}.")
+                defending_team = defence_turn(unit, player_team, enemy_team)
+                if unit in player_team:
+                    chosen_skill = PlayerSkillChoice(unit)
+                    skill_side_target = unit.Active_skills[chosen_skill]
+                    if skill_side_target == 'self':
+                        skill_target = unit
+                    else:
+                        skill_side = ChosenSide(skill_side_target, player_team, enemy_team)
+                        skill_target = ChosenSkillTarget(skill_side_target, skill_side)
+                    UseSkill(unit, chosen_skill, skill_target)
+                else: 
+                    skill_target = unit_turn(unit, defending_team)
+                check_unit_from_team(skill_target, round_queue)
+                is_battle = check_for_battle_loop(player_team, enemy_team, round_queue)
+                if not is_battle: break
+            else: pass
+        EffectsCooldown(round_queue)
+        SkillsCooldown(round_queue)
         print(f'Конец {round_count} раунда. \n')
         round_count +=1
             
-           
+# Вспомогательные функции           
 
 def PlayerSkillChoice(unit):
-    """Function for choosing an unit abitily.
-    
+    """Function for choosing an unit abitily.    
     Arguments:
         unit {object} -- current unit.
-    
     Returns:
         str -- name of chosen skill
     """
     possible_choice = []
-    for skill in enumerate(unit.Active_skills):
-        if skill not in unit.skills_on_CD:
-            possible_choice.append(skill)
-    print('Выберите номер способности, которую хотите использовать', possible_choice)
-    answer = int(input())
-    skill_name = possible_choice[answer][1]
+    choice = []
+    actives = unit.Active_skills.keys()
+    on_cd = unit.skills_on_CD.keys()
+    for skill in actives:
+        if skill not in on_cd:
+            possible_choice.append(skill)        
+    for skill in enumerate(possible_choice):
+            choice.append(skill)
+    while True:
+        try:
+            print('Выберите номер способности, которую хотите использовать', choice)
+            answer = int(input())
+            if answer in range(len(choice)):
+                skill_name = choice[answer][1]
+                break
+        except KeyboardInterrupt:
+            print('You decided to quit the game.')
+            quit()
+        except:
+            pass
+        print('пожалуйста, введите корректное число.\n')
     return skill_name
 
 def ChosenSide(skill_target, player_team, enemy_team):
     """Function whis sets, whether ability's target player's or emeny's team.
-    
     Arguments:
         skill_target {string} -- description of chosen abitily's target
         player_team {list} -- list of player's units
         enemy_team {list} -- list of enemy's units
-    
     Returns:
         list -- chosen team
     """
@@ -99,15 +118,13 @@ def ChosenSide(skill_target, player_team, enemy_team):
     return chosen_team
 
 def ChosenSkillTarget(chosen_skill, team):
-"""Function which sets, whether abitily's target will be single unit or whole team.
-
-Arguments:
-    chosen_skill {string} -- description of ability's target.
-    team {list} -- target team, which will be target or in which single target will be selected.
-
-Returns:
-    object / list -- ability's target, object for single unit and list for whole team.
-"""
+    """Function which sets, whether abitily's target will be single unit or whole team.
+    Arguments:
+        chosen_skill {string} -- description of ability's target.
+        team {list} -- target team, which will be target or in which single target will be selected.
+    Returns:
+        object / list -- ability's target, object for single unit and list for whole team.
+    """
     if 'team' in chosen_skill:
         chosen_target = ChooseTeam(team)
     elif 'target' in chosen_skill:
@@ -115,11 +132,9 @@ Returns:
     return chosen_target
 
 def ChooseTarget(team):
-    """Function which sets single target.
-    
+    """Function which sets single target.    
     Arguments:
         team {list} -- list of possible targets
-    
     Returns:
         object -- chosen target.
     """
@@ -127,8 +142,18 @@ def ChooseTarget(team):
     for pair in enumerate(team):
         if pair[1].alive:
             target_choice.append([pair[0], pair[1].name])
-    print('Выберите номер противника, которого хотите сделать целью способности', target_choice)
-    answer = int(input())
+    while True:
+        try:
+            print('Выберите номер юнита, которого хотите сделать целью способности', target_choice)
+            answer = int(input())
+            if answer in range(len(target_choice)):
+                break
+        except KeyboardInterrupt:
+            print('You decided to quit the game.')
+            quit()
+        except:
+            pass
+        print('Пожалуйста, введите корректное число.\n')
     for unit in team:
         if unit.name == target_choice[answer][1]:
             target = unit
@@ -136,10 +161,8 @@ def ChooseTarget(team):
 
 def ChooseTeam(team):
     """Function which sets all alive units in team as a target.
-    
     Arguments:
         team {list} -- list of all possible targets
-    
     Returns:
         list -- list of all chosen targets
     """
@@ -150,12 +173,8 @@ def ChooseTeam(team):
     return team_choice
 
 def UseSkill(unit, skill_name, chosen_target):
-    """Function which helps to apply unit's skill on it's target(s)
-    
-    Arguments:
-        unit {object} -- current unit
-        skill_name {string} -- mane of current skill
-        chosen_target {object/list} -- skill's target(s), object for single target and list for multiple targets
+    """
+    Function which helps to apply unit's skill on it's target(s)
     """
     skill = getattr(unit, skill_name)
     skill(chosen_target)
@@ -170,15 +189,15 @@ def big_battle_queue(original_queue):
     return round_units_queue
     
 def unit_turn(unit, enemy_team):
-"""Simple AI turn prototype.
-Uses basic Attack only.
+    """Simple AI turn prototype.
+    Uses basic Attack only.
 
-Arguments:
-    unit {object} -- current unit
-    enemy_team {list} -- list of all possible targets
-
-Returns:
-    object -- enemy unit with dealt damage
+    Arguments:
+        unit {object} -- current unit
+        enemy_team {list} -- list of all possible targets
+        
+    Returns:
+        object -- enemy unit with dealt damage
 """
     current_choice = []
     for unit in enemy_team:
@@ -190,13 +209,8 @@ Returns:
     return enemy_unit
 
 def defence_turn(unit, player_team, enemy_team):
-    """Defending team checking
-    
-    Arguments:
-        unit {object} -- current acting unit
-        player_team {list} -- list of player's units
-        enemy_team {list} -- list of emeny's units
-    
+    """Sets defending team.
+
     Returns:
         list -- defending team
     """
@@ -207,15 +221,15 @@ def defence_turn(unit, player_team, enemy_team):
     return defending_team
 
 def check_for_battle_loop(player_team, enemy_team, big_queue):
-    """Checks if both teams still have units. If not, sets loop = False
-    
+    """Checks if both teams still have units.
+
     Arguments:
         player_team {list} -- list of all current player's units
         enemy_team {list} -- list of all current emeny's units
         big_queue {list} -- list of all current units in battle
-    
+
     Returns:
-        bool -- True of both teams have at least one unit, False otherwise
+        bool -- True if both teams have at least one unit, False otherwise
     """
     if (set(player_team) >= set(big_queue)):
         return False
@@ -231,18 +245,33 @@ def check_unit_from_team(target, round_queue):
         round_queue {list} -- list of all currnet acting units
     """
     if 'list' not in str(type(target)):
-        print(f'У {target.name} осталось {target.current_health} здоровья.')
         target.Is_alive()
         if not target.alive:
             round_queue.remove(target)
             print(f'{target.name} умер.')
     else:
         for unit in target:
-            print(f'У {unit.name} осталось {unit.current_health} здоровья.')
-            unit.Is_alive
+            # print(f'У {unit.name} {unit.current_health} здоровья.')
+            unit.Is_alive()
             if not unit.alive:
                 round_queue.remove(unit)
                 print(f'{unit.name} умер.')
+
+def SkillsCooldown(queue):
+    for unit in queue:
+        unit.CooldownSkills()
+
+# Функции, управляющие эффектами юнитов
+
+def ApplyEffects(queue):
+    for unit in queue:
+        if unit.effects:
+            unit.ApplyActiveEffects()
+
+def EffectsCooldown(queue):
+    for unit in queue:
+        if unit.effects:
+            unit.CheckEffectCooldown()
 
 # Данные две функции просто для наглядности выводят общий список и список очереди соответственно
 
@@ -255,5 +284,6 @@ def present_units(big_queue):
 def units_in_battle(round_q):
     rq = []
     for unit in round_q:
-        rq.append([unit.name, unit.current_health])
+        if unit.alive and (unit.initiative > 0):
+            rq.append([unit.name, unit.current_health])
     return(rq)
