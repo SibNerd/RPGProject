@@ -48,18 +48,25 @@ def Half_Auto_Battle(player_team, enemy_team):
             if unit.initiative >0:
                 print('\nЮниты в бою:', units_in_battle(round_queue))
                 print(f"Cейчас ходит {unit.name}, сила: {unit.strenght}.")
-                defending_team = defence_turn(unit, player_team, enemy_team)
                 if unit in player_team:
                     chosen_skill = PlayerSkillChoice(unit)
                     skill_side_target = unit.Active_skills[chosen_skill]
                     if skill_side_target == 'self':
                         skill_target = unit
                     else:
-                        skill_side = ChosenSide(skill_side_target, player_team, enemy_team)
-                        skill_target = ChosenSkillTarget(skill_side_target, skill_side)
+                        skill_side = PlayerChosenSide(skill_side_target, player_team, enemy_team)
+                        skill_target = PlayerChosenSkillTarget(skill_side_target, skill_side)
                     UseSkill(unit, chosen_skill, skill_target)
-                else: 
-                    skill_target = unit_turn(unit, defending_team)
+                else:
+                    chosen_skill = EnemySkillChoice(unit)
+                    skill_side_target = unit.Active_skills[chosen_skill]
+                    if skill_side_target == 'self':
+                        skill_target = unit
+                    else:
+                        skill_side = EnemyChosenSide(skill_side_target, player_team, enemy_team)
+                        skill_target = EnemyChosenSkillTarget(skill_side_target, skill_side)
+                        print(f'{unit.name} использует {chosen_skill} на {skill_target}')
+                    UseSkill(unit, chosen_skill, skill_target)
                 check_unit_from_team(skill_target, round_queue)
                 is_battle = check_for_battle_loop(player_team, enemy_team, round_queue)
                 if not is_battle: break
@@ -70,6 +77,8 @@ def Half_Auto_Battle(player_team, enemy_team):
         round_count +=1
             
 # Вспомогательные функции           
+
+# Действие игрока
 
 def PlayerSkillChoice(unit):
     """Function for choosing an unit abitily.    
@@ -102,12 +111,9 @@ def PlayerSkillChoice(unit):
         print('пожалуйста, введите корректное число.\n')
     return skill_name
 
-def ChosenSide(skill_target, player_team, enemy_team):
+def PlayerChosenSide(skill_target, player_team, enemy_team):
     """Function whis sets, whether ability's target player's or emeny's team.
-    Arguments:
-        skill_target {string} -- description of chosen abitily's target
-        player_team {list} -- list of player's units
-        enemy_team {list} -- list of enemy's units
+
     Returns:
         list -- chosen team
     """
@@ -117,7 +123,7 @@ def ChosenSide(skill_target, player_team, enemy_team):
         chosen_team = enemy_team
     return chosen_team
 
-def ChosenSkillTarget(chosen_skill, team):
+def PlayerChosenSkillTarget(chosen_skill, team):
     """Function which sets, whether abitily's target will be single unit or whole team.
     Arguments:
         chosen_skill {string} -- description of ability's target.
@@ -128,10 +134,10 @@ def ChosenSkillTarget(chosen_skill, team):
     if 'team' in chosen_skill:
         chosen_target = ChooseTeam(team)
     elif 'target' in chosen_skill:
-        chosen_target = ChooseTarget(team)
+        chosen_target = PlayerChooseTarget(team)
     return chosen_target
 
-def ChooseTarget(team):
+def PlayerChooseTarget(team):
     """Function which sets single target.    
     Arguments:
         team {list} -- list of possible targets
@@ -159,10 +165,47 @@ def ChooseTarget(team):
             target = unit
     return target
 
+# Конец действий игрока
+
+# Действие противника
+
+def EnemySkillChoice(unit):
+        possible_choice = []
+        actives = unit.Active_skills.keys()
+        on_cd = unit.skills_on_CD.keys()
+        for skill in actives:
+                if skill not in on_cd:
+                        possible_choice.append(skill)
+        chosen_skill = random.choice(possible_choice)
+        return chosen_skill
+
+def EnemyChosenSide(skill_target, player_team, enemy_team):
+    if 'friendly' in skill_target:
+        chosen_team = enemy_team
+    else:
+        chosen_team = player_team
+    return chosen_team
+
+def EnemyChosenSkillTarget(chosen_skill, team):
+    if 'team' in chosen_skill:
+        chosen_target = ChooseTeam(team)
+    elif 'target' in chosen_skill:
+        chosen_target = EnemyChooseTarget(team)
+    return chosen_target
+
+def EnemyChooseTarget(team):
+        target_choice = []
+        for unit in team:
+                if unit.alive:
+                        target_choice.append(unit)
+        target = random.choice(target_choice)
+        return target
+
+# Конец действий противника
+
 def ChooseTeam(team):
     """Function which sets all alive units in team as a target.
-    Arguments:
-        team {list} -- list of all possible targets
+
     Returns:
         list -- list of all chosen targets
     """
@@ -222,11 +265,6 @@ def defence_turn(unit, player_team, enemy_team):
 
 def check_for_battle_loop(player_team, enemy_team, big_queue):
     """Checks if both teams still have units.
-
-    Arguments:
-        player_team {list} -- list of all current player's units
-        enemy_team {list} -- list of all current emeny's units
-        big_queue {list} -- list of all current units in battle
 
     Returns:
         bool -- True if both teams have at least one unit, False otherwise

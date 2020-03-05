@@ -11,7 +11,7 @@ import battleround as br
 #import undeadcharacters as udc
 #import humancharacters as huc
 #import beastcharacters as bec
-"""
+
 possible_choice = {1: 'Undead', 2: 'Humans', 3: 'Beasts'}
 #Choose Fraction
 print("What fraction do you want to choose for battle?")
@@ -29,12 +29,8 @@ enemy_team = bm.random_enemy_team(chosen_fraction)
 print('Enemy team is: ', end = ' ')
 for unit in enemy_team: print(unit.name, end = '   ')
 print('\n')
-"""
-player_team = bm.comand_init('Undead')
-enemy_team = bm.comand_init('Humans')
-br.Auto_Battle(player_team, enemy_team)
-print('\n')
-print('It was Undead VS Humans','\n')
+
+br.Half_Auto_Battle(player_team, enemy_team)
 
 """
 player_team = bm.comand_init('Undead')

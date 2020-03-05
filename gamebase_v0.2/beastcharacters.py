@@ -108,7 +108,7 @@ class Swampress(bc.BaseCharacter):
         buff_duration = 2
         base_attr = unit.strenght
         unit.strenght += buff_amount
-        unit.effects.update({'StrenghtBuff', ['constant', base_attr, 'strenght', buff_duration]})
+        unit.effects.update({'StrenghtBuff': ['constant', base_attr, 'strenght', buff_duration]})
         self.skills_on_CD.update({'TargetStrenghtBuff': cooldown})
 
     # Конец активных способностей
@@ -192,7 +192,7 @@ class Kikimora(bc.BaseCharacter):
         for unit in target:
             base_attr = unit.initiative
             unit.initiative -= debuff_amount
-            unit.effect.update({'InitiativeDebuff': ['constant', base_attr, 'initiative', debuff_duration]})
+            unit.effects.update({'InitiativeDebuff': ['constant', base_attr, 'initiative', debuff_duration]})
         self.skills_on_CD.update({'InitiativeDebuff': cooldown})
 
     def RageBuff(self, target):

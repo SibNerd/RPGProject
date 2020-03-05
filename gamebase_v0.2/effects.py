@@ -1,5 +1,5 @@
 """
-Содержит все эффекты и состояния, которые могут применятся к юнитам в бою
+Содержит логику применения эффектов.
 
 Есть два типа эффектов:
     * постоянные
@@ -12,36 +12,40 @@
 
 у прогрессивных эффектов передаются:
     * тип эффекта
-    * базовое значение
     * модификатор
     * продолжительность
 
 Прогрессивные эффекты накладываются в начале хода, продолжительность эффектов уменьшается в конце хода.
 """
 
-from collections import namedtuple as ntp
-
 class ConstantEffect():
+    """
+    Класс для постоянных эффектов.
+    Принимает базовое значение, атрибут эффекта и продолжительность применения.
+    """
     def __init__(self, effect):
         self.base = effect[1]
         self.attr = effect[2]
         self.duration = effect[3]
 
 class ProgressiveEffect():
+    """
+    Класс для прогрессивных эффектов.
+    Принимает тип эффекта, модификатор эффекта и продолжительность применения.
+    """
     def __init__(self, effect):
         self.ftype = effect[1]
-        self.base = effect[2]
-        self.amount = effect[3]
-        self.duration = effect[4]
+        self.amount = effect[2]
+        self.duration = effect[3]
         
 def GetEffectInfo(effect):
-    """Делает из списка с описанием эффекта именованый список для удобства работы с его аттрибутами
+    """Делает из списка с описанием эффекта объект класса для удобства работы с его атрибутами
     
     Arguments:
-        effect {list} -- список с аттрибутами эффекта
+        effect {list} -- список с атрибутами эффекта
     
     Returns:
-        namedtuple -- именованый список
+        object -- объект класса ConstantEffect или ProgressiveEffect
     """
     if effect[0] == 'constant':
         current_effect = ConstantEffect(effect)

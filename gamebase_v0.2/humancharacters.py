@@ -6,7 +6,6 @@ import random
 class HouseSpirit (bc.BaseCharacter):
     """
     LOW DD UNIT.
-    Can't do shit actually.
     """
     def __init__(self):
         super().__init__()
@@ -142,7 +141,7 @@ class HeroWarrior(bc.BaseCharacter):
         for unit in target:
             base_atr = unit.morality
             unit.morality += buff_amount
-            unit.effects.update({'Morality Buff', ['constant', base_atr, 'morality', buff_duration]})
+            unit.effects.update({'Morality Buff': ['constant', base_atr, 'morality', buff_duration]})
         self.skills_on_CD.update({'TeamMoralityBuff': cooldown})
             
     # Конец активных способностей
