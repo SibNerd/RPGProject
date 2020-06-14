@@ -8,9 +8,6 @@ import basecharacter as bc
 import battlemode as bm
 import random
 import battleround as br
-#import undeadcharacters as udc
-#import humancharacters as huc
-#import beastcharacters as bec
 
 possible_choice = {1: 'Undead', 2: 'Humans', 3: 'Beasts'}
 #Choose Fraction
@@ -20,7 +17,8 @@ answer = int(input())
 chosen_fraction = possible_choice[answer]
 
 #kinda menu
-print('So, you chose {}, good choice!'.format(chosen_fraction))
+"""
+print(f'So, you chose {chosen_fraction}, good choice!')
 player_team = bm.comand_init(chosen_fraction)
 print('Your team is:', end = ' ')
 for unit in player_team: print(unit.name, end ='   ')
@@ -29,12 +27,12 @@ enemy_team = bm.random_enemy_team(chosen_fraction)
 print('Enemy team is: ', end = ' ')
 for unit in enemy_team: print(unit.name, end = '   ')
 print('\n')
-
+"""
+print('write 4 names please:')
+team = bm.CheckUnitsFraction(chosen_fraction)
+player_team = bm.InitComand(team)
+enemy_fraction = bm.EnemyFraction(chosen_fraction)
+enemy_units = bm.EmenyUnitChoice(enemy_fraction)
+print(f'Вражеская команда: {enemy_units}')
+enemy_team = bm.InitComand(enemy_units)
 br.Half_Auto_Battle(player_team, enemy_team)
-
-"""
-player_team = bm.comand_init('Undead')
-enemy_team = bm.comand_init('Beasts')
-bm.Auto_Battle(player_team, enemy_team)
-print('\n','It was Undead VS Beasts','\n')
-"""
