@@ -5,104 +5,106 @@ Contains different checks and queue logics by now.
 
 #import BaseCharacter
 import random
-import undeadcharacters as uc
-import humancharacters as hc
-import beastcharacters as bc
-
-# BASIC ATTACKING FUNCTIONS
-
-def single_target_attack(attacking_character_damage, defending_character_health):
-    """
-    Standart attack.
-    Used for abilities, where unit deals single gamage per action to a single target.
-    """
-    return defending_character_health - attacking_character_damage
-
-def multiple_target_attack(attacking_character_damage, defending_character_health):
-    """
-    Used for abilities, where unit deals more than one damage per action to a single target.
-    """
-    for damage_dealt in attacking_character_damage:
-        defending_character_health -= damage_dealt
-    return defending_character_health
-
-def AOE_target_attack(attacking_character_damage, defending_characters_health):
-    """
-    Used for abilities where unit deals single damage per action to more than one enemy.
-    """
-    resultiing_health = list()
-    for defending_character in defending_characters_health:
-        defending_character_health = defending_character - attacking_character_damage
-        resultiing_health.append(defending_character_health)
-    return resultiing_health
-
-# End of Basic attacking funcktions
+import undeadcharacters
+import humancharacters
+import beastcharacters
 
 
 
-# FRACTION TEAMS INITIATION
+# ВЫБОР ФРАКЦИЙ И СОЗДАНИЕ КОМАНД
 
-def Undead_team_init():
-    imp = uc.Imp()
-    mara = uc.Mara()
-    ghoul = uc.Ghoul()
-    team_units = [imp, mara, ghoul]
-    return team_units
+possible_units = {
+    'Анчутка': [undeadcharacters.Imp, 'Undead'], 
+    'Упырь': [undeadcharacters.Vampire, 'Undead'],
+    'Вытьянка': [undeadcharacters.Howleress, 'Undead'],
+    'Мара': [undeadcharacters.Mara, 'Undead'],
+    'Вурдалак': [undeadcharacters.Ghoul, 'Undead'],
+    'Костомаха': [undeadcharacters.Skeleton, 'Undead'],
+    'Жердяй': [undeadcharacters.Poleman, 'Undead'],
+    'Кадук': [undeadcharacters.Kaduk, 'Undead'],
+    'Бабай': [undeadcharacters.Babaiy, 'Undead'],
+    'Пепелюха': [undeadcharacters.Ashsoul, 'Undead'],
 
-def Humans_team_init():
-    houser = hc.HouseSpirit()
-    protectress = hc.Protectress()
-    hero = hc.HeroWarrior()
-    team_units = [houser, protectress, hero]
-    return team_units
+    'Домовой': [humancharacters.HouseSpirit, 'Humans'],
+    'Ведьмак': [humancharacters.Witcher, 'Humans'],
+    'Берегиня': [humancharacters.Protectress, 'Humans'],
+    'Богатырь': [humancharacters.HeroWarrior, 'Humans'],
+    'Жрец': [humancharacters.Druid, 'Humans'],
+    'Огневик': [humancharacters.Firesoul, 'Humans'],
+    'Витар': [humancharacters.SharpwindBird, 'Humans'],
+    'Русалка': [humancharacters.Mermaid, 'Humans'],
+    'Паляха': [humancharacters.FieldLady, 'Humans'],
+    'Чергавы': [humancharacters.Graveguard, 'Humans'],
 
-def Beasts_team_init():
-    bather = bc.Bather()
-    swampress = bc.Swampress()
-    kikimora = bc.Kikimora()
-    team_units = [bather, swampress, kikimora]
-    return team_units
+    'Банник': [beastcharacters.Bather, 'Beasts'],
+    'Волколак': [beastcharacters.Werewolf, 'Beasts'],
+    'Болотница': [beastcharacters.Swampress, 'Beasts'],
+    'Берендей': [beastcharacters.Werebear, 'Beasts'],
+    'Кикимора': [beastcharacters.Kikimora, 'Beasts'],
+    'Жабалка': [beastcharacters.Toad, 'Beasts'],
+    'Аспид': [beastcharacters.Asp, 'Beasts'],
+    'Боровик': [beastcharacters.Boletus, 'Beasts'],
+    'Вужалка': [beastcharacters.TreeAspess, 'Beasts'],
+    'Леший': [beastcharacters.Forester, 'Beasts'],
+}
 
-# End of Fraction Teams Initiation
+def CheckUnitsFraction(fraction):
+    """Пользовательское создание команды.
+    Следит, что все юниты относятся к выбранной игроком фракции и являются уникальными.
 
-
-
-# TEAMS INITIATION
-
-def comand_init(target_fraction):
-    """Initiation of chosen fraction's command
-
-    Arguments:
-        target_fraction {string} -- chosen fraction
+    Args:
+        fraction (string): выбранная игроком фракция
 
     Returns:
-        list -- list of initialized units for battle
+        list: список имен выбранных юнитов
     """
-    #possible_fractions = (Undead, Humans, Beasts)
-    if target_fraction == 'Undead':
-        team = Undead_team_init()
-    elif target_fraction == 'Humans':
-        team = Humans_team_init()
-    elif target_fraction == 'Beasts':
-        team = Beasts_team_init()
-    return team
+    group = []  
+    while len(group) < 4:
+        try:
+            answer = str(input())
+            unit = answer.capitalize()
+            unit_fraction = possible_units.get(unit)[1]
+            if (unit_fraction == fraction) and (unit not in group):
+                group.append(unit)
+                print(f'Ваша команда: {group}')
+        except KeyboardInterrupt:
+            print('Вы решили выйти из игры.')
+            quit()
+        except TypeError:
+            print('Вы точно вводите имя юнита?')
+            continue
+    return group
 
-def random_enemy_team(chosen_fraction):
-    """Initialises random enemy's team. Not the same as player's
-    
-    Arguments:
-        chosen_fraction {string} -- player's chosen fraction
-    
-    Returns:
-        list -- randomly set enemy's team
-    """
+def EmenyUnitChoice(fraction):
+    choice = []
+    group = []
+    for unit in possible_units:
+        if possible_units[unit][1] == fraction:
+            choice.append(unit)
+    while len(group) < 4:
+        group.append(random.choice(choice))
+    return group
+
+def EnemyFraction(chosen_fraction):
     possible_fractions = ['Undead', 'Humans', 'Beasts']
     possible_fractions.remove(chosen_fraction)
     enemy_fraction = random.choice(possible_fractions)
-    enemy_team = comand_init(enemy_fraction)
-    return enemy_team
+    return enemy_fraction
 
-# end of player's & enemy's teams initiation
+def InitComand(group):
+    """Создает команду для боя.
+
+    Arguments:
+        group {set} -- список имен юнитов в команде
+
+    Returns:
+        list -- список объектов юнитов в команде
+    """
+    comand = []
+    for unit in group:
+        init_unit = possible_units.get(unit)[0]()
+        comand.append(init_unit)
+    return comand
 
 
 
