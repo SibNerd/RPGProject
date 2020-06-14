@@ -57,7 +57,7 @@ def ApplyEffect(effect):
     """Накладывает на юнита выбранный эффект.
     
     Arguments:
-        effect {list} --   Список значений выбранного эффекта
+        effect {list} -- Список значений выбранного эффекта
     """
     if effect[0] == 'constant':
         current_effect = GetEffectInfo(effect)

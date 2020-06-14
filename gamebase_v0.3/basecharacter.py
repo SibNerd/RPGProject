@@ -6,27 +6,12 @@ Has:
 import random
 import effects as EFFECTS
 
-# Зоны, в которых может выпасть значение кубика
+# Зоны, в которых может выпасть значение кубика, чем больше значение, тем _хуже_
 CRITICAL_GOOD = range(1,5) 
 GOOD = range(5, 9)
 AVERAGE = range(9, 13)
 BAD = range(14,17)
 CRITICAL_BAD = range(17, 21)
-
-def check_parameter (character_parameter, checking_points):
-    """
-    Checks if every ability was used successful.
-    The smaller checking_points, the better.
-    1-5 points mean critical hit, which doubles the result of the final points.
-    """
-    if checking_points <= character_parameter:
-        if checking_points in CRITICAL_GOOD:
-            resulting_points = character_parameter * 2
-        else:
-            resulting_points = checking_points
-    else:
-        resulting_points = 0
-    return resulting_points
 
 def Check_critical(character_parameter):
     """This function checks if Defoult Unit Parameter hit critical zone or not.
@@ -59,13 +44,12 @@ class BaseCharacter():
     def __init__(self):
         self.morality = 100
         self.rage = 0
-        #self.defence = 0
         self.effects = {}
         self.skills_on_CD = {}
         self.alive = True
         
     def Attack(self, target):
-        """Basic character Attack. Doesn't have a cooldown. Uses characters strenght, rage adn morality and target's health.
+        """Basic character Attack. Doesn't have a cooldown. Uses characters strenght, rage and morality and target's health.
         
         Arguments:
             target {object} -- target unit, who gets damage
@@ -84,8 +68,6 @@ class BaseCharacter():
         #total_defence = check_parameter(self.strength, defence_points)
         # OR
         defence_points = round((self.strenght/2) + (self.initiative/2))
-        #defence_amount = (self.strenght + self.initiative)
-        #total_defence = check_parameter(defence_amount, defence_points)
         return defence_points
 
     def Is_alive(self):
