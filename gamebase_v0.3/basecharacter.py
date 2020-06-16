@@ -10,10 +10,10 @@ import effects as EFFECTS
 CRITICAL_GOOD = range(1,5) 
 GOOD = range(5, 9)
 AVERAGE = range(9, 13)
-BAD = range(14,17)
+BAD = range(13,17)
 CRITICAL_BAD = range(17, 21)
 
-def Check_critical(character_parameter):
+def CheckCritical(character_parameter):
     """This function checks if Defoult Unit Parameter hit critical zone or not.
     
     Arguments:
@@ -23,7 +23,7 @@ def Check_critical(character_parameter):
     Returns:
         result -- integer value, result of a dice roll
     """
-    luck_factor = random.randint(0, 20)
+    luck_factor = random.randint(1, 20)
     if luck_factor in CRITICAL_BAD:
         result = 0
     elif luck_factor in BAD:
@@ -35,6 +35,10 @@ def Check_critical(character_parameter):
     else:
         result = character_parameter
     return int(result)
+
+# Возможно, добавлю функцию для проверки скилов, пусть пока будет здесь
+# def UseCriticalSkill(parameter):
+#    pass
 
 
 class BaseCharacter():
@@ -54,7 +58,7 @@ class BaseCharacter():
         Arguments:
             target {object} -- target unit, who gets damage
         """
-        damage_points = Check_critical(self.strenght)
+        damage_points = CheckCritical(self.strenght)
         modifiers = int((self.morality/100) * (1-(self.rage/100)))
         total_damage = damage_points * modifiers
         target.current_health -= total_damage
