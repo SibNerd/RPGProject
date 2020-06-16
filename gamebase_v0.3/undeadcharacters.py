@@ -29,10 +29,8 @@ class Imp(bc.BaseCharacter):
         Deals Damage to a target TWICE
         """
         cooldown = 2
-        # total_damage = list()
         for i in range(2):
-            damage_points = random.randint(1,20)
-            dealt_damage = bc.check_parameter((self.strenght-2), damage_points)
+            dealt_damage = bc.CheckCritical((self.strenght)-2)
             target.current_health -= dealt_damage
         self.skills_on_CD.update({"DoubleStrike": cooldown})
 
@@ -66,8 +64,8 @@ class Vampire(bc.BaseCharacter):
         Жажда крови
         """
         cooldown = 3
-        biting_points = random.randint(1,20)
-        total_bite = bc.check_parameter(self.strenght, biting_points)
+        biting_points = int(self.strenght + (1 + self.rage/100))
+        total_bite = bc.CheckCritical(biting_points)
         enemy_unit.current_health -= total_bite
         self.current_health += total_bite
         self.Check_current_health()
@@ -113,7 +111,7 @@ class Howleress(bc.BaseCharacter):
         """
         COOLDOWN = 2
         healing_power = int((self.strenght + self.morality/100 + self.initiative/2))
-        healing_done = bc.Check_critical(healing_power)
+        healing_done = bc.CheckCritical(healing_power)
         friendly_unit.current_health += healing_done
         friendly_unit.Check_current_health()
         self.skills_on_CD.update({"Healing": COOLDOWN})
@@ -121,7 +119,7 @@ class Howleress(bc.BaseCharacter):
     def MassHealing(self, team):
         cooldown = 4
         healing_power = int((self.strenght + self.morality/100 + self.initiative/2))
-        healing_done = bc.Check_critical(healing_power)
+        healing_done = bc.CheckCritical(healing_power)
         for unit in team:
             unit.current_health += healing_done
             unit.Check_current_health()
