@@ -19,33 +19,33 @@ possible_units = {
     'Вытьянка': [undeadcharacters.Howleress, 'Undead'],
     'Мара': [undeadcharacters.Mara, 'Undead'],
     'Вурдалак': [undeadcharacters.Ghoul, 'Undead'],
-    'Костомаха': [undeadcharacters.Skeleton, 'Undead'],
-    'Жердяй': [undeadcharacters.Poleman, 'Undead'],
-    'Кадук': [undeadcharacters.Kaduk, 'Undead'],
-    'Бабай': [undeadcharacters.Babaiy, 'Undead'],
-    'Пепелюха': [undeadcharacters.Ashsoul, 'Undead'],
+    #'Костомаха': [undeadcharacters.Skeleton, 'Undead'],
+    #'Жердяй': [undeadcharacters.Poleman, 'Undead'],
+    #'Кадук': [undeadcharacters.Kaduk, 'Undead'],
+    #'Бабай': [undeadcharacters.Babaiy, 'Undead'],
+    #'Пепелюха': [undeadcharacters.Ashsoul, 'Undead'],
 
     'Домовой': [humancharacters.HouseSpirit, 'Humans'],
     'Ведьмак': [humancharacters.Witcher, 'Humans'],
     'Берегиня': [humancharacters.Protectress, 'Humans'],
     'Богатырь': [humancharacters.HeroWarrior, 'Humans'],
     'Жрец': [humancharacters.Druid, 'Humans'],
-    'Огневик': [humancharacters.Firesoul, 'Humans'],
-    'Витар': [humancharacters.SharpwindBird, 'Humans'],
-    'Русалка': [humancharacters.Mermaid, 'Humans'],
-    'Паляха': [humancharacters.FieldLady, 'Humans'],
-    'Чергавы': [humancharacters.Graveguard, 'Humans'],
+    #'Огневик': [humancharacters.Firesoul, 'Humans'],
+    #'Витар': [humancharacters.SharpwindBird, 'Humans'],
+    #'Русалка': [humancharacters.Mermaid, 'Humans'],
+    #'Паляха': [humancharacters.FieldLady, 'Humans'],
+    #'Чергавы': [humancharacters.Graveguard, 'Humans'],
 
     'Банник': [beastcharacters.Bather, 'Beasts'],
     'Волколак': [beastcharacters.Werewolf, 'Beasts'],
     'Болотница': [beastcharacters.Swampress, 'Beasts'],
     'Берендей': [beastcharacters.Werebear, 'Beasts'],
     'Кикимора': [beastcharacters.Kikimora, 'Beasts'],
-    'Жабалка': [beastcharacters.Toad, 'Beasts'],
-    'Аспид': [beastcharacters.Asp, 'Beasts'],
-    'Боровик': [beastcharacters.Boletus, 'Beasts'],
-    'Вужалка': [beastcharacters.TreeAspess, 'Beasts'],
-    'Леший': [beastcharacters.Forester, 'Beasts'],
+    #'Жабалка': [beastcharacters.Toad, 'Beasts'],
+    #'Аспид': [beastcharacters.Asp, 'Beasts'],
+    #'Боровик': [beastcharacters.Boletus, 'Beasts'],
+    #'Вужалка': [beastcharacters.TreeAspess, 'Beasts'],
+    #'Леший': [beastcharacters.Forester, 'Beasts'],
 }
 
 def CheckUnitsFraction(fraction):
@@ -82,7 +82,9 @@ def EmenyUnitChoice(fraction):
         if possible_units[unit][1] == fraction:
             choice.append(unit)
     while len(group) < 4:
-        group.append(random.choice(choice))
+        chosen_unit = random.choice(choice)
+        group.append(chosen_unit)
+        choice.remove(chosen_unit)
     return group
 
 def EnemyFraction(chosen_fraction):
