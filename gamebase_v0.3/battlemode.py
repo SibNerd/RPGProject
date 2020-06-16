@@ -67,11 +67,15 @@ def CheckUnitsFraction(fraction):
             if (unit_fraction == fraction) and (unit not in group):
                 group.append(unit)
                 print(f'Ваша команда: {group}')
+            elif unit_fraction != fraction:
+                print(f'{unit} не в выбранной вами фракции. Все юниты должны быть одной фракции.')
+            elif unit in group:
+                print(f"{unit} уже есть в вашей команде. Выберите кого-нибудь еще, так интереснее.")
         except KeyboardInterrupt:
             print('Вы решили выйти из игры.')
             quit()
         except TypeError:
-            print('Вы точно вводите имя юнита?')
+            print('Вы точно вводите имя юнита? Возможно, вы опечатались?')
             continue
     return group
 
