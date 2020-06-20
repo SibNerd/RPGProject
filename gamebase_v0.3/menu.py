@@ -10,13 +10,35 @@ import battleround as battle
 def WonOrLose(winner):
     if winner:
         print('Вы выиграли! Что будете делать теперь?')
-        print("""1 - Сыграть еще раз, ваша команда останется прежней, но команда противника сменится.
-                 2 - Вернуться в меню.""")
     else:
         print('Вы проиграли. Что будете делать теперь?')
-        print("""
-        1 - Сыграть еще раз, ваша команда и команда противника останутся те же.
-        2 - Вернуться в меню.""")
+"""
+def AfterMatch(fraction, player_team, enemy_team):    
+    print(""" """1 - Сыграть еще раз, ваша команда и команда противника будут прежние.
+             2 - Сыграть еще раз, ваша команда останется прежней, но команда противника сменится.
+             3 - Вернуться в меню.""" """)
+    while True:
+        try:
+            answer = int(input())
+            if answer == 1:
+                player_team = 
+                winner = battle.Auto_Battle(player_team, enemy_team)
+                AfterMatch(fraction, player_team, enemy_team)
+            elif answer == 2:
+                enemy_units = CreateEnemyTeam(fraction)
+                enemy_team = bm.InitComand(enemy_units)
+                winner = battle.Auto_Battle(player_team, )
+            elif answer == 3:
+                MainMenu(fraction, player_team)
+            else:
+               print('Введите 1 или 2')
+        except KeyboardInterrupt:
+            quit()
+        except:
+            pass
+"""
+
+
 
 def MainMenu(fraction, team):
     if not fraction and not team:
@@ -38,8 +60,7 @@ def MainMenu(fraction, team):
                     player_team = bm.InitComand(team)
                     enemy_team = bm.InitComand(enemy_units)
                     winner = battle.Auto_Battle(player_team, enemy_team)
-                    print( winner)
-                    # add WonOrLose
+                    WonOrLose(winner)
                 elif answer == 2:
                     player_team, enemy_team = CreateBothTeams(fraction)
                     MainMenu(fraction, player_team)
