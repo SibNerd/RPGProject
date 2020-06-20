@@ -1,6 +1,9 @@
 '''
-Решила вывести функцию боя в отдельный модуль. Возможно, в battlemode будут только функции
-для обработки различной боевой логики, а здесь будет обработка самого боя.
+Модуль для логики самого боя.
+Получает извне команды игрока и противника, а так же очередь юнитов в бою.
+
+Содержит также старую функцию Автобоя, при которой юниты используют только базовую атаку.
+Не удаляю ее для теста баланса новых юнитов.
 '''
 import battlemode as bm
 import random
@@ -25,8 +28,10 @@ def Auto_Battle(player_team, enemy_team):
             defending_team = defence_turn(unit, player_team, enemy_team)
             enemy_unit = unit_turn(unit, defending_team)
             check_unit_from_team(enemy_unit, round_queue)
-            battle_loop = check_for_battle_loop(player_team, enemy_team, round_queue)
-            if not battle_loop: break
+            battle_loop, is_winner = check_for_battle_loop(player_team, enemy_team, round_queue)
+            if not battle_loop: 
+                return is_winner
+                break
         print('End of the round ', round_count, '. \n')
         round_count +=1
 
@@ -56,6 +61,7 @@ def Half_Auto_Battle(player_team, enemy_team):
                     else:
                         skill_side = PlayerChosenSide(skill_side_target, player_team, enemy_team)
                         skill_target = PlayerChosenSkillTarget(skill_side_target, skill_side)
+                    # print(f'{unit.name} использует {chosen_skill} на {skill_target.name}')
                     UseSkill(unit, chosen_skill, skill_target)
                 else:
                     chosen_skill = EnemySkillChoice(unit)
@@ -65,11 +71,13 @@ def Half_Auto_Battle(player_team, enemy_team):
                     else:
                         skill_side = EnemyChosenSide(skill_side_target, player_team, enemy_team)
                         skill_target = EnemyChosenSkillTarget(skill_side_target, skill_side)
-                        print(f'{unit.name} использует {chosen_skill} на {skill_target}')
+                    # print(f'{unit.name} использует {chosen_skill} на {skill_target.name}')
                     UseSkill(unit, chosen_skill, skill_target)
                 check_unit_from_team(skill_target, round_queue)
-                is_battle = check_for_battle_loop(player_team, enemy_team, round_queue)
-                if not is_battle: break
+                is_battle, is_winner = check_for_battle_loop(player_team, enemy_team, round_queue)
+                if not is_battle: 
+                    return is_winner
+                    break
             else: pass
         EffectsCooldown(round_queue)
         SkillsCooldown(round_queue)
@@ -220,6 +228,7 @@ def UseSkill(unit, skill_name, chosen_target):
     Function which helps to apply unit's skill on it's target(s)
     """
     skill = getattr(unit, skill_name)
+    print(f'{unit.name} использует {skill_name} на {chosen_target}')
     skill(chosen_target)
 
 def big_battle_queue(original_queue):
@@ -270,10 +279,10 @@ def check_for_battle_loop(player_team, enemy_team, big_queue):
         bool -- True if both teams have at least one unit, False otherwise
     """
     if (set(player_team) >= set(big_queue)):
-        return False
+        return [False, True]
     elif (set(enemy_team) >= set(big_queue)):
-        return False
-    else: return True
+        return [False, False]
+    else: return [True, None]
 
 def check_unit_from_team(target, round_queue):
     """Checks if unit os dead and if so, removes it from queue
@@ -289,7 +298,6 @@ def check_unit_from_team(target, round_queue):
             print(f'{target.name} умер.')
     else:
         for unit in target:
-            # print(f'У {unit.name} {unit.current_health} здоровья.')
             unit.Is_alive()
             if not unit.alive:
                 round_queue.remove(unit)
