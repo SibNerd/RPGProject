@@ -1,3 +1,9 @@
+"""
+Модуль с главным меню игры.
+Содержит функции для выбора фракции игрока, создания обеих команд, функцию самого главного меню
+и функцию, обрабатывающую результат предыдущего боя.
+"""
+
 import battlemode as bm
 import battleround as battle
 
@@ -28,7 +34,12 @@ def MainMenu(fraction, team):
                 3 - Сменить фракцию.""")
                 answer = int(input())
                 if answer == 1:
-                    battle.Half_Auto_Battle(player_team, enemy_team)
+                    enemy_units = CreateEnemyTeam(fraction)
+                    player_team = bm.InitComand(team)
+                    enemy_team = bm.InitComand(enemy_units)
+                    winner = battle.Auto_Battle(player_team, enemy_team)
+                    print( winner)
+                    # add WonOrLose
                 elif answer == 2:
                     player_team, enemy_team = CreateBothTeams(fraction)
                     MainMenu(fraction, player_team)
@@ -53,23 +64,28 @@ def MainMenu(fraction, team):
                 pass
 
 
+
+# ----------------------Функции для выбора фракции и создания команд-------------------------
+
 def CreateBothTeams(fraction):
     player_team = CreatePlayerTeam(fraction)
     enemy_team = CreateEnemyTeam(fraction)
     return [player_team, enemy_team]
 
 def CreatePlayerTeam(fraction):
-    print('write 4 names please:')
+    unit_choice = []
+    for name, info in bm.possible_units.items():
+        if info[1] == fraction:
+            unit_choice.append(name)
+    print(f'Выберите 4 юнита из Следующих:{unit_choice}')
     team = bm.CheckUnitsFraction(fraction)
-    player_team = bm.InitComand(team)
-    return player_team
+    return team
 
 def CreateEnemyTeam(fraction):
     enemy_fraction = bm.EnemyFraction(fraction)
     enemy_units = bm.EmenyUnitChoice(enemy_fraction)
     print(f'Вражеская команда: {enemy_units}')
-    enemy_team = bm.InitComand(enemy_units)
-    return enemy_team
+    return enemy_units
 
 def ChooseFraction():
     possible_choice = {1: 'Undead', 2: 'Humans', 3: 'Beasts'}
