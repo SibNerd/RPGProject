@@ -59,7 +59,7 @@ def MainMenu(fraction, team):
                     enemy_units = CreateEnemyTeam(fraction)
                     player_team = bm.InitComand(team)
                     enemy_team = bm.InitComand(enemy_units)
-                    winner = battle.Auto_Battle(player_team, enemy_team)
+                    winner = battle.Half_Auto_Battle(player_team, enemy_team)
                     WonOrLose(winner)
                 elif answer == 2:
                     player_team, enemy_team = CreateBothTeams(fraction)
@@ -80,6 +80,8 @@ def MainMenu(fraction, team):
                 else:
                     print('Хмм... Примем это за нет.')
                     pass
+            except ValueError:
+                pass
             except TypeError:
                 print('Вы уверены, что вводите число?')
                 pass
@@ -123,6 +125,8 @@ def ChooseFraction():
                 print('Пожалуйста, введите верное число')
         except KeyboardInterrupt:
             quit()
+        except ValueError:
+            print('Вы не ввели число.')
         except:
             print('Вы точно вводите число?')
             pass
