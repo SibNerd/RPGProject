@@ -22,9 +22,9 @@ def Auto_Battle(player_team, enemy_team):
         print(round_count, 'Round! Begin!')
         round_queue = big_battle_queue(general_queue)
         print(present_units(general_queue))
-        print('Юниты в бою: ', units_in_battle(round_queue))
+        print('Очередь активных юнитов: ', units_in_battle(round_queue))
         for unit in round_queue:
-            print(f"\nIt's {unit.name}'s turn to go. {unit.name} Has {unit.current_health} HP")
+            print(f"\nСейчас ход {unit.name}. У {unit.name} {unit.current_health} очков здоровья")
             defending_team = defence_turn(unit, player_team, enemy_team)
             enemy_unit = unit_turn(unit, defending_team)
             check_unit_from_team(enemy_unit, round_queue)
@@ -51,7 +51,8 @@ def Half_Auto_Battle(player_team, enemy_team):
         ApplyEffects(round_queue)
         for unit in round_queue:
             if unit.initiative >0:
-                print('\nЮниты в бою:', units_in_battle(round_queue))
+                print('\nОчередь активных юнитов', units_in_battle(round_queue))
+                print('Все юниты в бою:', present_units(general_queue))
                 print(f"Cейчас ходит {unit.name}, сила: {unit.strenght}.")
                 if unit in player_team:
                     chosen_skill = PlayerSkillChoice(unit)
@@ -106,17 +107,20 @@ def PlayerSkillChoice(unit):
             choice.append(skill)
     while True:
         try:
-            print('Выберите номер способности, которую хотите использовать', choice)
+            print('Выберите номер способности, которую хотите использовать: ', choice)
             answer = int(input())
             if answer in range(len(choice)):
                 skill_name = choice[answer][1]
                 break
         except KeyboardInterrupt:
-            print('You decided to quit the game.')
+            print('Вы решили выйти из игры.')
             quit()
+        except ValueError:
+            print('Вы не ввели номер способности.')
+            pass
         except:
             pass
-        print('пожалуйста, введите корректное число.\n')
+        print('пожалуйста, введите корректное число.')
     return skill_name
 
 def PlayerChosenSide(skill_target, player_team, enemy_team):
@@ -158,13 +162,16 @@ def PlayerChooseTarget(team):
             target_choice.append([pair[0], pair[1].name])
     while True:
         try:
-            print('Выберите номер юнита, которого хотите сделать целью способности', target_choice)
+            print('Выберите номер юнита, которого хотите сделать целью способности: ', target_choice)
             answer = int(input())
             if answer in range(len(target_choice)):
                 break
         except KeyboardInterrupt:
-            print('You decided to quit the game.')
+            print('Вы решили выйти из игра')
             quit()
+        except ValueError:
+            print('Вы не ввели номер юнита')
+            pass
         except:
             pass
         print('Пожалуйста, введите корректное число.\n')
@@ -295,13 +302,13 @@ def check_unit_from_team(target, round_queue):
         target.Is_alive()
         if not target.alive:
             round_queue.remove(target)
-            print(f'{target.name} умер.')
+            print(f'{target.name} умирает.')
     else:
         for unit in target:
             unit.Is_alive()
             if not unit.alive:
                 round_queue.remove(unit)
-                print(f'{unit.name} умер.')
+                print(f'{unit.name} умирает.')
 
 def SkillsCooldown(queue):
     for unit in queue:
