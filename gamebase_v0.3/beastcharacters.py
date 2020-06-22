@@ -56,16 +56,15 @@ class Werewolf(bc.BaseCharacter):
     # АКТИВНЫЕ СПОСОБНОСТИ
 
     def StrenghtBuff(self):
-
-        # ИСПРАВИТЬ СКИЛЛ!!!
-
         'rage of the beast'
-        cooldown = 2
+        cooldown = 3
         value = 3
+        buff_duration = 2
         base_attr = self.strenght
         self.strenght += value
-        self.effects.update({'StrenghtBuff': ['constant', base_attr, 'strenght', cooldown]})
-        print(f'{self.name} увелеичивает свою силу на {value} единиц на {cooldown} хода.')
+        self.effects.update({'StrenghtBuff': ['constant', base_attr, 'strenght', buff_duration]})
+        print(f'{self.name} увелеичивает свою силу на {value} единиц на {buff_duration} хода.')
+        self.skills_on_CD.update({'StrenghtBuff': cooldown})
     
     def MoralityBuff(self, target):
         morality_amount = 15
@@ -102,14 +101,13 @@ class Swampress(bc.BaseCharacter):
 
     def MassHealing(self, team):
         cooldown = 4
-        # 
-        heal_value = 15
-        #
+        healing_power = int((self.strenght + self.morality/100 + self.initiative/2))
+        healing_done = bc.CheckCritical(healing_power)
         for unit in team:
-            unit.current_health += heal_value
+            unit.current_health += healing_done
             unit.Check_current_health()
         self.skills_on_CD.update({'MassHealing': cooldown})
-        print(f'{self.name} восстанавливает команде {} ОЗ.')
+        print(f'{self.name} восстанавливает команде {healing_done} ОЗ.')
 
     def TargetStrenghtBuff(self, unit):
         cooldown = 3
