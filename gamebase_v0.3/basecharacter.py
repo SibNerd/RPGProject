@@ -61,6 +61,7 @@ class BaseCharacter():
         damage_points = CheckCritical(self.strenght)
         modifiers = int((self.morality/100) * (1-(self.rage/100)))
         total_damage = damage_points * modifiers
+        print(f'{self.name} наносит {target.name} {total_damage} урона.')
         target.current_health -= total_damage
     
     def Defence(self):

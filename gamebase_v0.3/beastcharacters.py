@@ -30,6 +30,7 @@ class Bather(bc.BaseCharacter):
         base_attr = target.initiative
         target.initiative = 0
         target.effects.update({'Stun': ['constant', base_attr, 'initiative', stun_duration]})
+        print(f'{self.name} наносит {target.name} {damage} урона и обездвиживает на {stun_duration} хода.')
         self.skills_on_CD.update({'DamageAndStun': cooldown})
 
     # Конец активных способностей
@@ -55,12 +56,16 @@ class Werewolf(bc.BaseCharacter):
     # АКТИВНЫЕ СПОСОБНОСТИ
 
     def StrenghtBuff(self):
+
+        # ИСПРАВИТЬ СКИЛЛ!!!
+
         'rage of the beast'
         cooldown = 2
         value = 3
         base_attr = self.strenght
         self.strenght += value
         self.effects.update({'StrenghtBuff': ['constant', base_attr, 'strenght', cooldown]})
+        print(f'{self.name} увелеичивает свою силу на {value} единиц на {cooldown} хода.')
     
     def MoralityBuff(self, target):
         morality_amount = 15
@@ -70,6 +75,7 @@ class Werewolf(bc.BaseCharacter):
             base_attr = unit.morality
             unit.morality += morality_amount
             unit.effects.update({'MoralityBuff': ['constant', base_attr, 'morality', buff_duration]})
+        print(f'{self.name} увеличивает мораль своей команды на {morality_amount} единиц на {buff_duration} хода.')
         self.skills_on_CD.update({'MoralityBuff': cooldown})
 
     # Конец активных способностей
@@ -96,11 +102,14 @@ class Swampress(bc.BaseCharacter):
 
     def MassHealing(self, team):
         cooldown = 4
+        # 
         heal_value = 15
+        #
         for unit in team:
             unit.current_health += heal_value
             unit.Check_current_health()
         self.skills_on_CD.update({'MassHealing': cooldown})
+        print(f'{self.name} восстанавливает команде {} ОЗ.')
 
     def TargetStrenghtBuff(self, unit):
         cooldown = 3
@@ -109,6 +118,7 @@ class Swampress(bc.BaseCharacter):
         base_attr = unit.strenght
         unit.strenght += buff_amount
         unit.effects.update({'StrenghtBuff': ['constant', base_attr, 'strenght', buff_duration]})
+        print(f'{self.name} увеличивает силу комнда на {buff_amount} единиц на {buff_duration} хода.')
         self.skills_on_CD.update({'TargetStrenghtBuff': cooldown})
 
     # Конец активных способностей
@@ -127,7 +137,7 @@ class Werebear(bc.BaseCharacter):
         self.initiative = 6
         self.Active_skills = {'Attack': 'target',
                               'InitiativeBuff': 'friendly team',
-                              'InitiativeBuffRageDebuff': 'team',}
+                              'InitiativeBuffRageDebuff': 'friendly team',}
         self.Passive_skills = {}
 
     # АКТИВНЫЕ СПОСОБНОСТИ
@@ -140,6 +150,7 @@ class Werebear(bc.BaseCharacter):
             base_attr = unit.initiative
             unit.initiative += buff_amount
             unit.effects.update({'InitiativeBuff': ['constant', base_attr, 'initiative', buff_duration]})
+        print(f'{self.name} увеличивает инициативу {target.name} на {buff_amount} единиц на {buff_duration} хода.')
         self.skills_on_CD.update({'InitiativeBuff': cooldown})
 
     def InitiativeBuffRageDebuff(self, target):
@@ -152,6 +163,7 @@ class Werebear(bc.BaseCharacter):
             unit.initiative += buff_amount
             unit.effects.update({'InitiativeBuff': ['constant', base_attr, 'initiative', buff_duration]})
             unit.rage -= debuff_amount
+        print(f'{self.name} уввеличивает инициативу команды на {buff_amount} единиц на {buff_duration} хода и уменьшает ярость на {debuff_amount} единиц.')
         self.skills_on_CD.update({'InitiativeBuffRageDebuff': cooldown})
         
     # Конец активных способностей
@@ -184,6 +196,7 @@ class Kikimora(bc.BaseCharacter):
         target.initiative = 0
         target.effects.update({'Stun': ['constant', base_attr, 'initiative', stun_duration]})
         self.skills_on_CD.update({'Stun': cooldown})
+        print(f'{self.name} обездвиживает {target.name} на {stun_duration} хода.')
 
     def InitiativeDebuff(self, target):
         cooldown = 4
@@ -193,6 +206,7 @@ class Kikimora(bc.BaseCharacter):
             base_attr = unit.initiative
             unit.initiative -= debuff_amount
             unit.effects.update({'InitiativeDebuff': ['constant', base_attr, 'initiative', debuff_duration]})
+        print(f'{self.name} уменьшает инициативу команды противника на {debuff_amount} единиц на {debuff_duration} хода.')
         self.skills_on_CD.update({'InitiativeDebuff': cooldown})
 
     def RageBuff(self, target):
@@ -201,6 +215,7 @@ class Kikimora(bc.BaseCharacter):
         buff_duration = 2
         target.rage += buff_amount
         target.effects.update({"RageBuff": ['progressive', 'buff', buff_amount, buff_duration]})
+        print(f'{self.name} увеличивает ярость {target.name} на {buff_amount} единиц.')
         self.skills_on_CD.update({'RageBuff': cooldown})
     
     # Конец активных способностей
