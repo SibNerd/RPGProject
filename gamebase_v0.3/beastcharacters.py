@@ -148,7 +148,7 @@ class Werebear(bc.BaseCharacter):
             base_attr = unit.initiative
             unit.initiative += buff_amount
             unit.effects.update({'InitiativeBuff': ['constant', base_attr, 'initiative', buff_duration]})
-        print(f'{self.name} увеличивает инициативу {target.name} на {buff_amount} единиц на {buff_duration} хода.')
+        print(f'{self.name} увеличивает инициативу команды на {buff_amount} единиц на {buff_duration} хода.')
         self.skills_on_CD.update({'InitiativeBuff': cooldown})
 
     def InitiativeBuffRageDebuff(self, target):

@@ -10,8 +10,10 @@ import battleround as battle
 def WonOrLose(winner):
     if winner:
         print('Вы выиграли! Что будете делать теперь?')
-    else:
+    elif not winner:
         print('Вы проиграли. Что будете делать теперь?')
+    else:
+        print('Похоже, что-то пошло не так...')
 """
 def AfterMatch(fraction, player_team, enemy_team):    
     print(""" """1 - Сыграть еще раз, ваша команда и команда противника будут прежние.
@@ -44,7 +46,7 @@ def MainMenu(fraction, team):
     if not fraction and not team:
         print('Привет! Давайте выберем вам фракцию и соберем команду, чтобы вы могли отправиться в бой!')
         fraction = ChooseFraction()
-        player_team, enemy_team = CreateBothTeams(fraction)
+        player_team = CreatePlayerTeam(fraction)
         MainMenu(fraction, player_team)
     else:
         while True:
@@ -59,8 +61,7 @@ def MainMenu(fraction, team):
                     enemy_units = CreateEnemyTeam(fraction)
                     player_team = bm.InitComand(team)
                     enemy_team = bm.InitComand(enemy_units)
-                    winner = battle.Half_Auto_Battle(player_team, enemy_team)
-                    WonOrLose(winner)
+                    battle.Half_Auto_Battle(player_team, enemy_team)
                 elif answer == 2:
                     player_team, enemy_team = CreateBothTeams(fraction)
                     MainMenu(fraction, player_team)
@@ -71,15 +72,8 @@ def MainMenu(fraction, team):
                 else:
                     print('Пожалуйста, введите правильное число')
             except KeyboardInterrupt:
-                print('Вы решили выйти из игры. Вы уверены? При перезаходе вы начнете сначала. Y/N или Да/Нет')
-                answer = str(input())
-                if answer == 'Y' or 'y' or 'да' or 'Да' or "ДА":
-                    quit()
-                elif answer == 'N' or "n" or 'Нет' or 'нет' or 'НЕТ':
-                    pass
-                else:
-                    print('Хмм... Примем это за нет.')
-                    pass
+                print('Вы решили выйти из игры.')
+                quit()
             except ValueError:
                 pass
             except TypeError:

@@ -169,7 +169,7 @@ class Druid(bc.BaseCharacter):
         self.initiative = 12
         self.Active_skills = {'Attack': 'target',
                               'TeamStrenghtDebuff': 'team',
-                              'TargetInitiativeDebugg': 'target'}
+                              'TargetInitiativeDebuff': 'target'}
         self.Passive_skills = {}
 
     # АКТИВНЫЕ СПОСОБНОСТИ
