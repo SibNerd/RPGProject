@@ -62,7 +62,6 @@ def Half_Auto_Battle(player_team, enemy_team):
                     else:
                         skill_side = PlayerChosenSide(skill_side_target, player_team, enemy_team)
                         skill_target = PlayerChosenSkillTarget(skill_side_target, skill_side)
-                    # print(f'{unit.name} использует {chosen_skill} на {skill_target.name}')
                     UseSkill(unit, chosen_skill, skill_target)
                 else:
                     chosen_skill = EnemySkillChoice(unit)
@@ -72,13 +71,10 @@ def Half_Auto_Battle(player_team, enemy_team):
                     else:
                         skill_side = EnemyChosenSide(skill_side_target, player_team, enemy_team)
                         skill_target = EnemyChosenSkillTarget(skill_side_target, skill_side)
-                    # print(f'{unit.name} использует {chosen_skill} на {skill_target.name}')
                     UseSkill(unit, chosen_skill, skill_target)
                 check_unit_from_team(skill_target, round_queue)
-                is_battle, is_winner = check_for_battle_loop(player_team, enemy_team, round_queue)
-                if not is_battle: 
-                    return is_winner
-                    break
+                is_battle = check_for_battle_loop(player_team, enemy_team, round_queue)
+                if not is_battle: break
             else: pass
         EffectsCooldown(round_queue)
         SkillsCooldown(round_queue)
@@ -234,9 +230,12 @@ def UseSkill(unit, skill_name, chosen_target):
     """
     Function which helps to apply unit's skill on it's target(s)
     """
-    skill = getattr(unit, skill_name)
-    print(f'{unit.name} использует {skill_name} на {chosen_target}')
-    skill(chosen_target)
+    if unit.Active_skills[skill_name] == 'self':
+        skill = getattr(unit, skill_name)
+        skill()
+    else:
+        skill = getattr(unit, skill_name)
+        skill(chosen_target)
 
 def big_battle_queue(original_queue):
     battle_queue = []
@@ -286,10 +285,12 @@ def check_for_battle_loop(player_team, enemy_team, big_queue):
         bool -- True if both teams have at least one unit, False otherwise
     """
     if (set(player_team) >= set(big_queue)):
-        return [False, True]
+        print('Вы выиграли!')
+        return False
     elif (set(enemy_team) >= set(big_queue)):
-        return [False, False]
-    else: return [True, None]
+        print('Вы проиграли.')
+        return False
+    else: return True
 
 def check_unit_from_team(target, round_queue):
     """Checks if unit os dead and if so, removes it from queue
