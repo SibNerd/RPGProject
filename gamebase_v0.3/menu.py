@@ -7,41 +7,6 @@
 import battlemode as bm
 import battleround as battle
 
-def WonOrLose(winner):
-    if winner:
-        print('Вы выиграли! Что будете делать теперь?')
-    elif not winner:
-        print('Вы проиграли. Что будете делать теперь?')
-    else:
-        print('Похоже, что-то пошло не так...')
-"""
-def AfterMatch(fraction, player_team, enemy_team):    
-    print(""" """1 - Сыграть еще раз, ваша команда и команда противника будут прежние.
-             2 - Сыграть еще раз, ваша команда останется прежней, но команда противника сменится.
-             3 - Вернуться в меню.""" """)
-    while True:
-        try:
-            answer = int(input())
-            if answer == 1:
-                player_team = 
-                winner = battle.Auto_Battle(player_team, enemy_team)
-                AfterMatch(fraction, player_team, enemy_team)
-            elif answer == 2:
-                enemy_units = CreateEnemyTeam(fraction)
-                enemy_team = bm.InitComand(enemy_units)
-                winner = battle.Auto_Battle(player_team, )
-            elif answer == 3:
-                MainMenu(fraction, player_team)
-            else:
-               print('Введите 1 или 2')
-        except KeyboardInterrupt:
-            quit()
-        except:
-            pass
-"""
-
-
-
 def MainMenu(fraction, team):
     if not fraction and not team:
         print('Привет! Давайте выберем вам фракцию и соберем команду, чтобы вы могли отправиться в бой!')
@@ -94,7 +59,7 @@ def CreatePlayerTeam(fraction):
     for name, info in bm.possible_units.items():
         if info[1] == fraction:
             unit_choice.append(name)
-    print(f'Выберите 4 юнита из Следующих:{unit_choice}')
+    print(f'Выберите 4 юнита из Следующих:{unit_choice}\nПожалуйста, вводите имена юнитов по одному с новой строки.')
     team = bm.CheckUnitsFraction(fraction)
     return team
 
